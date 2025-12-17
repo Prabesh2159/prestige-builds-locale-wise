@@ -28,14 +28,14 @@ const AdminPanel = () => {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-indigo-700 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-primary flex items-center justify-center p-4">
         <Card variant="elevated" className="w-full max-w-md">
           <CardHeader className="text-center">
-            <div className="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mx-auto mb-4">
-              <Lock className="w-8 h-8 text-indigo-700" />
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+              <Lock className="w-8 h-8 text-primary" />
             </div>
             <CardTitle className="text-2xl">Admin Login</CardTitle>
-            <CardDescription>Sunrise Academy Administration Panel</CardDescription>
+            <CardDescription>The Rising English Secondary Boarding School</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
@@ -73,7 +73,7 @@ const AdminPanel = () => {
                   />
                 </div>
               </div>
-              <Button type="submit" className="w-full bg-indigo-700 hover:bg-indigo-800 text-white">
+              <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
                 Login
               </Button>
             </form>
@@ -86,18 +86,18 @@ const AdminPanel = () => {
   return (
     <div className="min-h-screen bg-muted">
       {/* Admin Header - Matching website theme */}
-      <header className="bg-indigo-700 shadow-xl">
+      <header className="bg-primary shadow-xl">
         <div className="container-custom mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-white/90 flex items-center justify-center">
-              <LayoutDashboard className="w-5 h-5 text-indigo-700" />
+            <div className="w-10 h-10 rounded-lg bg-primary-foreground/90 flex items-center justify-center">
+              <LayoutDashboard className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h1 className="font-heading font-bold text-lg text-white">Admin Panel</h1>
-              <p className="text-xs text-white/80">Sunrise Academy</p>
+              <h1 className="font-heading font-bold text-lg text-primary-foreground">Admin Panel</h1>
+              <p className="text-xs text-primary-foreground/80">The Rising English Secondary Boarding School</p>
             </div>
           </div>
-          <Button variant="ghost" className="text-white hover:bg-white/20" onClick={() => setIsLoggedIn(false)}>
+          <Button variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20" onClick={() => setIsLoggedIn(false)}>
             <LogOut className="w-4 h-4 mr-2" />
             Logout
           </Button>
@@ -111,21 +111,21 @@ const AdminPanel = () => {
           <TabsList className="grid w-full grid-cols-3 mb-6">
             <TabsTrigger 
               value="notices" 
-              className="flex items-center gap-2 text-[#4338ca] hover:text-[#6088e1] data-[state=active]:bg-[#4338ca] data-[state=active]:text-white"
+              className="flex items-center gap-2 text-primary hover:text-primary/80 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <Bell className="w-4 h-4" />
               Notices
             </TabsTrigger>
             <TabsTrigger 
               value="gallery" 
-              className="flex items-center gap-2 text-[#4338ca] hover:text-[#6088e1] data-[state=active]:bg-[#4338ca] data-[state=active]:text-white"
+              className="flex items-center gap-2 text-primary hover:text-primary/80 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <Image className="w-4 h-4" />
               Gallery
             </TabsTrigger>
             <TabsTrigger 
               value="contact" 
-              className="flex items-center gap-2 text-[#4338ca] hover:text-[#6088e1] data-[state=active]:bg-[#4338ca] data-[state=active]:text-white"
+              className="flex items-center gap-2 text-primary hover:text-primary/80 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <Mail className="w-4 h-4" />
               Contact
@@ -137,7 +137,7 @@ const AdminPanel = () => {
             <Card variant="elevated">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Bell className="w-5 h-5 text-indigo-700" />
+                  <Bell className="w-5 h-5 text-primary" />
                   Notice Management
                 </CardTitle>
                 <CardDescription>Create and manage school notices</CardDescription>
@@ -176,7 +176,7 @@ const AdminPanel = () => {
                       </div>
                     </div>
                   </div>
-                  <Button className="w-full bg-indigo-700 hover:bg-indigo-800 text-white">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
                     <FileText className="w-4 h-4 mr-2" />
                     Add New Notice
                   </Button>
@@ -191,7 +191,7 @@ const AdminPanel = () => {
               {/* Add Image Button */}
               <div className="flex justify-end">
                 <Button 
-                  className="bg-indigo-700 hover:bg-indigo-800 text-white"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
                   onClick={() => setShowAddImageForm(true)}
                 >
                   <Plus className="w-4 h-4 mr-2" />
@@ -203,7 +203,7 @@ const AdminPanel = () => {
               <Card variant="elevated">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Image className="w-5 h-5 text-indigo-700" />
+                    <Image className="w-5 h-5 text-primary" />
                     View Gallery Images
                   </CardTitle>
                   <CardDescription>Manage existing gallery images</CardDescription>
@@ -249,7 +249,7 @@ const AdminPanel = () => {
             <Card variant="elevated">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-indigo-700" />
+                  <Mail className="w-5 h-5 text-primary" />
                   Contact Messages
                 </CardTitle>
                 <CardDescription>View and respond to contact form submissions</CardDescription>
@@ -318,13 +318,13 @@ const AdminPanel = () => {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Image className="w-5 h-5 text-indigo-700" />
+              <Image className="w-5 h-5 text-primary" />
               Add New Image
             </DialogTitle>
             <DialogDescription>Upload an image and add a description</DialogDescription>
           </DialogHeader>
           <form onSubmit={handleAddImage} className="space-y-4">
-            <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center hover:border-indigo-500 transition-colors cursor-pointer">
+            <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer">
               <Image className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
               <p className="text-sm text-muted-foreground mb-1">Click to upload or drag and drop</p>
               <p className="text-xs text-muted-foreground">PNG, JPG up to 10MB</p>
@@ -350,7 +350,7 @@ const AdminPanel = () => {
               <Button type="button" variant="outline" onClick={() => setShowAddImageForm(false)}>
                 Cancel
               </Button>
-              <Button type="submit" className="bg-indigo-700 hover:bg-indigo-800 text-white">
+              <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Image
               </Button>
