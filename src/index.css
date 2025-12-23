@@ -2,58 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
     --background: 210 20% 98%;
-    --foreground: 220 20% 15%;
+    --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 15%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 15%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 346 63% 33%;
+    --primary: 217 91% 53%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 343 63% 33%;
+    --secondary: 345 66% 33%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 210 20% 96%;
-    --muted-foreground: 220 10% 45%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 199 68% 93%;
-    --accent-foreground: 199 68% 35%;
+    --accent: 217 91% 95%;
+    --accent-foreground: 217 91% 40%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
-    --ring: 346 63% 33%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 53%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
     /* Custom school colors */
-    --sky-blue: 346 63% 33%;
-    --sky-blue-light: 346 63% 93%;
-    --sky-blue-dark: 346 63% 25%;
-    --maroon: 343 63% 33%;
-    --maroon-light: 343 63% 93%;
-    --maroon-dark: 343 63% 25%;
-    
+    --school-blue: 217 91% 53%;
+    --school-maroon: 345 66% 33%;
+    --school-gold: 45 93% 47%;
+    --school-light: 210 20% 98%;
+    --school-dark: 222 47% 11%;
+
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(346 63% 33% / 0.9), hsl(343 63% 33% / 0.8));
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 20% 98%));
-    --gradient-sky: linear-gradient(180deg, hsl(346 63% 93%), hsl(0 0% 100%));
-    
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 53%) 0%, hsl(217 91% 40%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(345 66% 33%) 0%, hsl(345 66% 25%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(217 91% 53% / 0.95) 0%, hsl(345 66% 33% / 0.9) 100%);
+
     /* Shadows */
-    --shadow-sm: 0 2px 8px -2px hsl(220 20% 15% / 0.08);
-    --shadow-md: 0 8px 24px -8px hsl(220 20% 15% / 0.12);
-    --shadow-lg: 0 16px 48px -12px hsl(220 20% 15% / 0.15);
-    --shadow-glow: 0 0 40px hsl(346 63% 33% / 0.25);
+    --shadow-sm: 0 1px 2px 0 hsl(222 47% 11% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(222 47% 11% / 0.1), 0 2px 4px -2px hsl(222 47% 11% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(222 47% 11% / 0.1), 0 4px 6px -4px hsl(222 47% 11% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(222 47% 11% / 0.1), 0 8px 10px -6px hsl(222 47% 11% / 0.1);
+    --shadow-glow: 0 0 20px hsl(217 91% 53% / 0.3);
+
+    /* Typography */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -66,33 +70,33 @@
   }
 
   .dark {
-    --background: 220 20% 10%;
+    --background: 222 47% 11%;
     --foreground: 210 20% 98%;
 
-    --card: 220 20% 13%;
+    --card: 222 47% 15%;
     --card-foreground: 210 20% 98%;
 
-    --popover: 220 20% 13%;
+    --popover: 222 47% 15%;
     --popover-foreground: 210 20% 98%;
 
-    --primary: 346 63% 33%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 47% 11%;
 
-    --secondary: 343 63% 40%;
+    --secondary: 345 66% 45%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 20% 18%;
-    --muted-foreground: 210 15% 65%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 346 50% 20%;
-    --accent-foreground: 346 63% 80%;
+    --accent: 217 33% 25%;
+    --accent-foreground: 210 20% 98%;
 
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 20% 98%;
 
-    --border: 220 20% 20%;
-    --input: 220 20% 20%;
-    --ring: 346 63% 33%;
+    --border: 217 33% 25%;
+    --input: 217 33% 25%;
+    --ring: 217 91% 60%;
   }
 }
 
@@ -101,120 +105,136 @@
     @apply border-border;
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
-
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', sans-serif;
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
-    @apply font-semibold tracking-tight;
+    font-family: var(--font-heading);
   }
 }
 
 @layer components {
+  .container-school {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
   .section-padding {
-    @apply px-4 sm:px-6 lg:px-8 py-16 md:py-24;
+    @apply py-16 md:py-24;
   }
 
-  .container-custom {
-    @apply max-w-7xl mx-auto;
+  .gradient-primary {
+    background: var(--gradient-primary);
   }
 
-  .card-hover {
-    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  .gradient-secondary {
+    background: var(--gradient-secondary);
   }
 
-  .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 hover:shadow-md;
+  .gradient-hero {
+    background: var(--gradient-hero);
   }
 
-  .btn-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 transition-all duration-300 hover:shadow-md;
+  .shadow-school {
+    box-shadow: var(--shadow-lg);
   }
 
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
-  }
-
-  .glass-effect {
-    @apply backdrop-blur-md bg-white/80 border border-white/20;
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
   }
 }
 
 @layer utilities {
-  .animate-fade-up {
-    animation: fadeUp 0.6s ease-out forwards;
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-ticker {
+    animation: ticker 30s linear infinite;
+  }
+
+  .animate-ticker:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
   }
 
   .animate-fade-in {
     animation: fadeIn 0.5s ease-out forwards;
   }
 
-  .animate-slide-in-right {
-    animation: slideInRight 0.5s ease-out forwards;
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.3s ease-out forwards;
   }
 
   .animate-scale-in {
-    animation: scaleIn 0.4s ease-out forwards;
+    animation: scaleIn 0.3s ease-out forwards;
   }
 
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
+  .animate-bounce-soft {
+    animation: bounceSoft 2s ease-in-out infinite;
   }
-}
 
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  to {
-    opacity: 1;
-  }
-}
 
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
+  @keyframes bounceSoft {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
   }
 }

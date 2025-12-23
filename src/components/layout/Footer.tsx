@@ -1,121 +1,107 @@
 import { Link } from 'react-router-dom';
 import { GraduationCap, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
+import { schoolInfo } from '@/data/mockData';
 
 const Footer = () => {
   return (
-    <footer className="bg-foreground text-card">
-      {/* Main Footer */}
-      <div className="container-custom mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* About */}
-          <div>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
-                <GraduationCap className="w-7 h-7 text-primary-foreground" />
+    <footer className="bg-foreground text-background">
+      <div className="container-school section-padding">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          {/* School Info */}
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 flex items-center justify-center">
+                <img src="/images/logo1.png" alt="Logo" />
+
+                {/* <GraduationCap className="w-7 h-7 text-primary-foreground" /> */}
               </div>
               <div>
-                <h3 className="font-heading font-bold text-lg leading-tight">The Rising English Secondary</h3>
-                <p className="text-sm text-card/70">Boarding School</p>
+                <h3 className="font-heading font-bold text-lg">The Rising</h3>
+                <h4 className="text-sm text-background/70">English Secondary Boarding School</h4>
               </div>
             </div>
-            <p className="text-card/80 leading-relaxed">
-              Nurturing young minds with quality education, strong moral values, and holistic development since 1995.
+            <p className="text-background/70 text-sm leading-relaxed mb-4">
+              {schoolInfo.tagline}. Established in {schoolInfo.established}, we have been nurturing young minds for excellence.
             </p>
+            <div className="flex gap-3">
+              <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors">
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors">
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors">
+                <Youtube className="w-5 h-5" />
+              </a>
+            </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-heading font-semibold text-lg mb-6">Quick Links</h4>
-            <ul className="space-y-3">
-              {[
-                { name: 'About Us', path: '/about' },
-                { name: 'Academics', path: '/academics' },
-                { name: 'Admissions', path: '/admission' },
-                { name: 'Gallery', path: '/gallery' },
-                { name: 'Contact', path: '/contact' },
-              ].map((link) => (
-                <li key={link.path}>
+            <h4 className="font-heading font-semibold text-lg mb-4">Quick Links</h4>
+            <ul className="space-y-2">
+              {['Home', 'About', 'Academics', 'Admission', 'Gallery', 'Contact'].map((link) => (
+                <li key={link}>
                   <Link
-                    to={link.path}
-                    className="text-card/80 hover:text-primary transition-colors duration-200"
+                    to={link === 'Home' ? '/' : `/${link.toLowerCase()}`}
+                    className="text-background/70 hover:text-primary transition-colors text-sm"
                   >
-                    {link.name}
+                    {link}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Academics */}
           <div>
-            <h4 className="font-heading font-semibold text-lg mb-6">Contact Us</h4>
-            <ul className="space-y-4">
+            <h4 className="font-heading font-semibold text-lg mb-4">Academics</h4>
+            <ul className="space-y-2 text-sm text-background/70">
+              <li>Pre-Primary (Nursery - UKG)</li>
+              <li>Primary Level (1-5)</li>
+              <li>Lower Secondary (6-8)</li>
+              <li>Secondary Level (9-10)</li>
+              <li>Science Lab</li>
+              <li>Computer Lab</li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="font-heading font-semibold text-lg mb-4">Contact Us</h4>
+            <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-card/80">
-                  123 Education Street, Learning City, 12345
-                </span>
+                <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-background/70">{schoolInfo.address}</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-primary flex-shrink-0" />
-                <a href="tel:+1234567890" className="text-card/80 hover:text-primary transition-colors">
-                  +1 234 567 890
+                <a href={`tel:${schoolInfo.phone}`} className="text-sm text-background/70 hover:text-primary transition-colors">
+                  {schoolInfo.phone}
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary flex-shrink-0" />
-                <a href="mailto:info@risingenglish.edu.np" className="text-card/80 hover:text-primary transition-colors">
-                  info@risingenglish.edu.np
+                <a href={`mailto:${schoolInfo.email}`} className="text-sm text-background/70 hover:text-primary transition-colors">
+                  {schoolInfo.email}
                 </a>
               </li>
             </ul>
-          </div>
-
-          {/* Social & Newsletter */}
-          <div>
-            <h4 className="font-heading font-semibold text-lg mb-6">Follow Us</h4>
-            <div className="flex gap-3 mb-8">
-              {[
-                { icon: Facebook, label: 'Facebook' },
-                { icon: Twitter, label: 'Twitter' },
-                { icon: Instagram, label: 'Instagram' },
-                { icon: Youtube, label: 'Youtube' },
-              ].map((social) => (
-                <a
-                  key={social.label}
-                  href="#"
-                  aria-label={social.label}
-                  className="w-10 h-10 rounded-lg bg-card/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-200"
-                >
-                  <social.icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div>
-            <div>
-              <h5 className="font-medium mb-3">Office Hours</h5>
-              <p className="text-card/80 text-sm">
-                Monday - Friday: 8:00 AM - 4:00 PM<br />
-                Saturday: 9:00 AM - 1:00 PM
-              </p>
-            </div>
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-card/10">
-        <div className="container-custom mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-card/60 text-sm">
-              © 2024 The Rising English Secondary Boarding School. All rights reserved.
-            </p>
-            <div className="flex gap-6 text-sm">
-              <a href="#" className="text-card/60 hover:text-card transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-card/60 hover:text-card transition-colors">
-                Terms of Service
-              </a>
+      <div className="border-t border-background/10">
+        <div className="container-school py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-background/60">
+            <p>© {new Date().getFullYear()} {schoolInfo.name}. All rights reserved.</p>
+            <div className="flex gap-6">
+              <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
             </div>
           </div>
         </div>

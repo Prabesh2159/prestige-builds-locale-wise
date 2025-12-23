@@ -1,63 +1,51 @@
-import { useEffect } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import Layout from "./components/layout/Layout";
+import ScrollToTop from "./components/shared/ScrollToTop";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Academics from "./pages/Academics";
 import Admission from "./pages/Admission";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
-import AdminPanel from "./pages/AdminPanel";
+import Notices from "./pages/Notices";
+import NoticeDetail from "./pages/NoticeDetail";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
-import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
-// Hidden admin panel keyboard shortcut handler
-const AdminKeyboardListener = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Shift + Alt + R to open admin panel
-      if (e.shiftKey && e.altKey && e.key.toLowerCase() === 'r') {
-        e.preventDefault();
-        navigate('/admin-panel');
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [navigate]);
-
-  return null;
-};
-
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <AdminKeyboardListener />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/academics" element={<Academics />} />
-          <Route path="/admission" element={<Admission />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/admin-panel" element={<AdminPanel />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ScrollToTop />
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/academics" element={<Academics />} />
+              <Route path="/admission" element={<Admission />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/notices" element={<Notices />} />
+              <Route path="/notices/:id" element={<NoticeDetail />} />
+              <Route path="/admin" element={<Admin />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;
