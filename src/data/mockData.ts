@@ -148,8 +148,15 @@ I invite parents to partner with us in this beautiful journey of education. Toge
 };
 
 export const classes = [
-  'Nursery', 'LKG', 'UKG', 'Class 1', 'Class 2', 'Class 3', 'Class 4', 
-  'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10'
+  // Pre-Primary to Class 9
+  'Nursery', 'LKG', 'UKG', 
+  'Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5', 
+  'Class 6', 'Class 7', 'Class 8', 'Class 9',
+  // +2 Level
+  'Class 11 – Management', 'Class 11 – Hotel Management', 
+  'Class 11 – Computer Science', 'Class 11 – Business Studies',
+  'Class 12 – Management', 'Class 12 – Hotel Management', 
+  'Class 12 – Computer Science', 'Class 12 – Business Studies'
 ];
 
 export const subjects = {

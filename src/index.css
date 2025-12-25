@@ -150,9 +150,9 @@
     text-wrap: balance;
   }
 
-  /* Ticker animation - faster on mobile, smooth on desktop */
+  /* Ticker animation - 2.5× faster on desktop (15s → 6s), 4× faster on mobile (12s → 3s) */
   .animate-ticker {
-    animation: ticker 15s linear infinite; /* Faster: reduced from 30s to 15s */
+    animation: ticker 6s linear infinite; /* Desktop: 2.5× faster */
   }
 
   /* Pause on hover for accessibility */
@@ -160,10 +160,10 @@
     animation-play-state: paused;
   }
 
-  /* Slightly faster on mobile for better readability */
+  /* 4× faster on mobile for better readability */
   @media (max-width: 768px) {
     .animate-ticker {
-      animation: ticker 12s linear infinite; /* Even faster on mobile: 12s */
+      animation: ticker 3s linear infinite; /* Mobile: 4× faster */
     }
   }
 
