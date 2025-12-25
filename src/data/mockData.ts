@@ -137,9 +137,9 @@ I am proud of our dedicated faculty, state-of-the-art facilities, and the achiev
 };
 
 export const vicePrincipal = {
-  name: 'Mrs. Sunita Adhikari',
+  name: 'Parshuram Guragain',
   position: 'Vice Principal',
-  image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400',
+  image: 'public/images/viceprincipal.jpg',
   message: `As the Vice Principal, I am honored to be part of an institution that prioritizes both academic excellence and personal growth. Our approach to education goes beyond textbooks – we focus on developing critical thinking, creativity, and compassion in our students.
 
 We maintain a supportive learning environment where students feel encouraged to explore, question, and innovate. Our comprehensive curriculum, combined with modern teaching methodologies, ensures that every child receives the best possible education.

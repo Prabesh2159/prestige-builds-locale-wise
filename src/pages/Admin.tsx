@@ -72,13 +72,22 @@ const Admin = () => {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Existing Escape key logic
       if (e.key === 'Escape') {
         navigate('/');
+      }
+
+      // New Logic: Shift + Alt + R to open login and fill credentials
+      if (e.shiftKey && e.altKey && (e.key === 'r' || e.key === 'R')) {
+        e.preventDefault();
+        setIsAuthenticated(false); // Force logout/show login screen
+        setLoginData({ username: 'username', password: 'password' }); // Fill credentials
+        toast({ title: 'Developer Mode', description: 'Login credentials auto-filled.' });
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [navigate]);
+  }, [navigate, toast]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -295,13 +304,13 @@ const Admin = () => {
           {/* Header */}
           <div className="p-4 border-b border-border">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                <GraduationCap className="w-5 h-5 text-primary-foreground" />
+              <div className="w-11 h-10  flex items-center justify-center">
+                <img src="public/images/logo1.png" alt="School Logo" className="w-6 h-6" />
               </div>
               {isSidebarOpen && (
                 <div>
                   <h2 className="font-heading font-bold text-foreground">Admin</h2>
-                  <p className="text-xs text-muted-foreground">TRESBS</p>
+                  <p className="text-xs text-muted-foreground">The Rising English Secondary Boarding School</p>
                 </div>
               )}
             </div>
