@@ -150,20 +150,20 @@
     text-wrap: balance;
   }
 
-  /* Ticker animation - PC as base speed, Mobile 1.5× faster */
+  /* Ticker animation - 3× faster (6s / 3 = 2s) */
   .animate-ticker {
-    animation: ticker 6s linear infinite; /* PC/Laptop: base speed */
+    animation: ticker 2s linear infinite;
   }
 
-  /* Pause on hover for PC accessibility */
+  /* Pause on hover for all devices */
   .animate-ticker:hover {
     animation-play-state: paused;
   }
 
-  /* Mobile: 1.5× faster than PC (6s / 1.5 = 4s) */
+  /* Mobile: also 3× faster (4s / 3 ≈ 1.3s) */
   @media (max-width: 768px) {
     .animate-ticker {
-      animation: ticker 4s linear infinite;
+      animation: ticker 1.3s linear infinite;
     }
   }
 
