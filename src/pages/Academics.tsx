@@ -73,7 +73,7 @@ const Academics = () => {
 
             {/* Secondary */}
             <div className="bg-card rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border-t-4 border-school-gold">
-              <h3 className="font-heading text-xl font-bold text-foreground mb-4">Secondary Level (10+2)</h3>
+              <h3 className="font-heading text-xl font-bold text-foreground mb-4">Secondary Level</h3>
               <ul className="space-y-2">
                 {classes.slice(8, 12).map((cls) => (
                   <li key={cls} className="flex items-center gap-3 text-muted-foreground">
