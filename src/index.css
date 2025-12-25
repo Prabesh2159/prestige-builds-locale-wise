@@ -160,10 +160,10 @@
     animation-play-state: paused;
   }
 
-  /* Mobile: 6× faster than PC (6s / 6 = 1s) with pause on hover */
+  /* Mobile: Smooth continuous scroll with pause on hover */
   @media (max-width: 768px) {
     .animate-ticker {
-      animation: ticker 1s linear infinite;
+      animation: ticker 8s linear infinite;
     }
     
     .animate-ticker:hover {
