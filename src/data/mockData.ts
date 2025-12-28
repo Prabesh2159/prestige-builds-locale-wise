@@ -112,12 +112,12 @@ export const contactMessages: ContactMessage[] = [
 ];
 
 export const schoolInfo = {
-  name: 'The Rising English Secondary Boarding School',
-  shortName: 'TRESBS',
+  name: 'Brilliant Sagarmatha English Secondary Boarding School',
+  shortName: 'BSESBS',
   tagline: 'Nurturing Minds, Building Futures',
   address: 'Sundar Haricha-10,Morang, Nepal',
   phone: '+977-021-547985',
-  email: 'therisingenglishschool@gmail.com',
+  email: 'brilliantsagarmatha@gmail.com',
   website: '',
   established: '1995',
   students: '1200+',
@@ -129,7 +129,7 @@ export const principal = {
   name: 'Gopal Prasad Pathak',
   position: 'Principal',
   image: 'public/images/principal.png',
-  message: `Welcome to The Rising English Secondary Boarding School. For over two decades, we have been committed to providing quality education that nurtures young minds and prepares them for the challenges of tomorrow.
+  message: `Welcome to Brilliant Sagarmatha English Secondary Boarding School. For over two decades, we have been committed to providing quality education that nurtures young minds and prepares them for the challenges of tomorrow.
 
 Our school believes in holistic development, combining academic excellence with character building, sports, and extracurricular activities. We strive to create an environment where every student can discover their potential and grow into responsible citizens.
 

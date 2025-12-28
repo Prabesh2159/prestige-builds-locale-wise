@@ -80,10 +80,10 @@ const Index = () => {
             <div className="animate-slide-up">
               <span className="text-primary font-semibold text-sm uppercase tracking-wider">About Us</span>
               <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mt-2 mb-6">
-                Welcome to The Rising English Secondary Boarding School
+                Welcome to Brilliant Sagarmatha English Secondary Boarding School
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Established in {schoolInfo.established}, The Rising English Secondary Boarding School has been a beacon of educational excellence in Nepal. Our commitment to holistic development ensures that every student receives not just academic knowledge, but also the values and skills needed for life.
+                Established in {schoolInfo.established}, Brilliant Sagarmatha English Secondary Boarding School has been a beacon of educational excellence in Nepal. Our commitment to holistic development ensures that every student receives not just academic knowledge, but also the values and skills needed for life.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-8">
                 With state-of-the-art facilities, experienced faculty, and a nurturing environment, we prepare our students to face the challenges of tomorrow with confidence and competence.
@@ -155,7 +155,7 @@ const Index = () => {
       <section className="section-padding gradient-primary">
         <div className="container-school text-center">
           <h2 className="font-heading text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
-            Ready to Join The Rising Family?
+            Ready to Join The Brilliant Sagarmatha Family?
           </h2>
           <p className="text-primary-foreground/90 text-lg mb-8 max-w-2xl mx-auto">
             Take the first step towards a brighter future. Apply for admission today and become part of our growing family of achievers.

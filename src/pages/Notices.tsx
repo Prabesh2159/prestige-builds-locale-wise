@@ -35,8 +35,8 @@ const Notices = () => {
   return (
     <>
       <Helmet>
-        <title>Notices | The Rising English Secondary Boarding School</title>
-        <meta name="description" content="Stay updated with the latest notices, announcements, and news from The Rising English Secondary Boarding School." />
+        <title>Notices | Brilliant Sagarmatha English Secondary Boarding School</title>
+        <meta name="description" content="Stay updated with the latest notices, announcements, and news from Brilliant Sagarmatha English Secondary Boarding School." />
       </Helmet>
 
       <div>

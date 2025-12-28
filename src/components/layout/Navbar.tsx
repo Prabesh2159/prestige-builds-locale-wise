@@ -57,7 +57,7 @@ const Navbar = () => {
                 'font-heading font-bold text-sm sm:text-lg md:text-xl leading-tight transition-colors truncate',
                 isScrolled ? 'text-foreground' : 'text-primary-foreground'
               )}>
-                The Rising
+                Brilliant Sagarmatha
               </h1>
               <p className={cn(
                 'text-[10px] sm:text-xs transition-colors truncate',
