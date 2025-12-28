@@ -150,7 +150,7 @@
     text-wrap: balance;
   }
 
-  /* Ticker animation - PC as base speed, Mobile 1.5× faster */
+  /* Ticker animation - PC as base speed (6s), Mobile 3× faster (2s) */
   .animate-ticker {
     animation: ticker 6s linear infinite; /* PC/Laptop: base speed */
   }
@@ -160,10 +160,10 @@
     animation-play-state: paused;
   }
 
-  /* Mobile: 6× faster than PC (6s / 6 = 1s) with pause on hover */
+  /* Mobile: 3× faster than PC (6s / 3 = 2s) with pause on hover */
   @media (max-width: 768px) {
     .animate-ticker {
-      animation: ticker 1s linear infinite;
+      animation: ticker 2s linear infinite;
     }
     
     .animate-ticker:hover {
