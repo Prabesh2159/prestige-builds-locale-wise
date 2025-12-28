@@ -16,7 +16,7 @@ const Footer = () => {
                 {/* <GraduationCap className="w-7 h-7 text-primary-foreground" /> */}
               </div>
               <div>
-                <h3 className="font-heading font-bold text-lg">The Rising</h3>
+                <h3 className="font-heading font-bold text-lg">Brilliant Sagarmatha</h3>
                 <h4 className="text-sm text-background/70">English Secondary Boarding School</h4>
               </div>
             </div>

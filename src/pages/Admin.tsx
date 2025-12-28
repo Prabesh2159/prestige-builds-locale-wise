@@ -252,7 +252,7 @@ const Admin = () => {
               <GraduationCap className="w-10 h-10 text-primary-foreground" />
             </div>
             <h1 className="font-heading text-3xl font-bold text-foreground">Admin Panel</h1>
-            <p className="text-muted-foreground mt-2">The Rising English Secondary Boarding School</p>
+            <p className="text-muted-foreground mt-2">Brilliant Sagarmatha English Secondary Boarding School</p>
           </div>
 
           <form onSubmit={handleLogin} className="bg-card rounded-xl p-8 shadow-school border border-border">
@@ -310,7 +310,7 @@ const Admin = () => {
               {isSidebarOpen && (
                 <div>
                   <h2 className="font-heading font-bold text-foreground">Admin</h2>
-                  <p className="text-xs text-muted-foreground">The Rising English Secondary Boarding School</p>
+                  <p className="text-xs text-muted-foreground">Brilliant Sagarmatha English Secondary Boarding School</p>
                 </div>
               )}
             </div>
