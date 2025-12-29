@@ -51,7 +51,7 @@ const Admission = () => {
   ];
 
   return (
-    <div>
+    <div className="min-h-screen">
       <PageHero 
         title="Admissions" 
         subtitle={`Join the ${schoolInfo.shortName} family and embark on a journey of excellence`}

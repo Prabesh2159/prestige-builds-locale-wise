@@ -33,7 +33,7 @@ const Contact = () => {
   ];
 
   return (
-    <div>
+    <div className="min-h-screen">
       <PageHero 
         title="Contact Us" 
         subtitle="We'd love to hear from you. Get in touch with us today."

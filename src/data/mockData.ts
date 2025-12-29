@@ -1,46 +1,75 @@
-// Mock data for the school website - Backend ready structure
+/**
+ * Mock data for the school website - Backend Ready Structure
+ * 
+ * BACKEND INTEGRATION NOTES:
+ * ==========================
+ * All data models below are designed to be compatible with a database schema.
+ * Each model has a unique `id` field for database primary keys.
+ * 
+ * API Integration Points:
+ * - GET /api/notices - Fetch all notices
+ * - GET /api/notices/:id - Fetch single notice
+ * - POST /api/notices - Create notice (admin)
+ * - PUT /api/notices/:id - Update notice (admin)
+ * - DELETE /api/notices/:id - Delete notice (admin)
+ * 
+ * - GET /api/gallery - Fetch all gallery images
+ * - POST /api/gallery - Upload image (admin)
+ * - DELETE /api/gallery/:id - Delete image (admin)
+ * 
+ * - POST /api/contact - Submit contact form
+ * - GET /api/contact - Fetch messages (admin)
+ * - PUT /api/contact/:id - Mark as read (admin)
+ * 
+ * - POST /api/admission - Submit admission form
+ * - GET /api/admission - Fetch submissions (admin)
+ * - PUT /api/admission/:id - Update status (admin)
+ */
 
 export interface Notice {
-  id: string;
+  id: string; // Primary key - UUID recommended for production
   title: string;
   description: string;
   fullContent: string;
-  date: string;
-  // Attachment can be image URL, PDF URL, or object URL (for frontend-only uploads)
-  // TODO: Backend Integration - Replace with permanent storage URLs
+  date: string; // ISO 8601 format - can be converted to Date type
+  // TODO: Backend Integration - Replace with permanent storage URLs from file storage service
   attachment?: string;
   attachmentType?: 'image' | 'pdf';
   attachmentName?: string; // Original filename for display
   isNew: boolean;
+  // TODO: Add createdAt, updatedAt timestamps
 }
 
 export interface GalleryImage {
-  id: string;
-  src: string;
+  id: string; // Primary key - UUID recommended for production
+  src: string; // TODO: Backend Integration - Use file storage service URL
   alt: string;
-  date: string;
+  date: string; // ISO 8601 format
+  // TODO: Add category, tags for filtering
 }
 
 export interface ContactMessage {
-  id: string;
+  id: string; // Primary key - UUID recommended for production
   name: string;
   email: string;
   phone: string;
   message: string;
-  date: string;
+  date: string; // ISO 8601 format - createdAt timestamp
   isRead: boolean;
+  // TODO: Add respondedAt, respondedBy for tracking
 }
 
 export interface AdmissionForm {
-  id: string;
+  id: string; // Primary key - UUID recommended for production
   name: string;
   phone: string;
   email: string;
   address: string;
   classApplying: string;
   message: string;
-  date: string;
+  date: string; // ISO 8601 format - submittedAt timestamp
   status: 'pending' | 'reviewed' | 'approved' | 'rejected';
+  // TODO: Add reviewedBy, reviewedAt, notes for admin tracking
 }
 
 export const notices: Notice[] = [
