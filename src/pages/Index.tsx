@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { schoolInfo, facilities } from '@/data/mockData';
 
 // Use hero image from public folder for Home page only
-const heroImagePath = '/images/hero.jpg';
+const heroImagePath = '/images/building.jpeg';
 
 const Index = () => {
   const stats = [
@@ -80,10 +80,10 @@ const Index = () => {
             <div className="animate-slide-up">
               <span className="text-primary font-semibold text-sm uppercase tracking-wider">About Us</span>
               <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mt-2 mb-6">
-                Welcome to The Rising English Secondary Boarding School
+                Welcome to Brilliant Sagarmatha English Secondary Boarding School
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Established in {schoolInfo.established}, The Rising English Secondary Boarding School has been a beacon of educational excellence in Nepal. Our commitment to holistic development ensures that every student receives not just academic knowledge, but also the values and skills needed for life.
+                Established in {schoolInfo.established}, Brilliant Sagarmatha English Secondary Boarding School has been a beacon of educational excellence in Nepal. Our commitment to holistic development ensures that every student receives not just academic knowledge, but also the values and skills needed for life.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-8">
                 With state-of-the-art facilities, experienced faculty, and a nurturing environment, we prepare our students to face the challenges of tomorrow with confidence and competence.

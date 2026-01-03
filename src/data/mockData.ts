@@ -161,12 +161,12 @@ export const admissionForms: AdmissionForm[] = [
 ];
 
 export const schoolInfo = {
-  name: 'The Rising English Secondary Boarding School',
-  shortName: 'TRESBS',
+  name: 'Brilliant Sagarmatha English Secondary Boarding School',
+  shortName: 'Brilliant Sagarmatha',
   tagline: 'Nurturing Minds, Building Futures',
-  address: 'Sundar Haricha-10,Morang, Nepal',
-  phone: '+977-021-547985',
-  email: 'therisingenglishschool@gmail.com',
+  address: 'Ramdhuni-05, Jhumka, Sunsari, Nepal',
+  phone: '+977-025562490',
+  email: 'uniquesagarmatha@gmail.com',
   website: '',
   established: '1995',
   students: '1200+',
@@ -175,7 +175,7 @@ export const schoolInfo = {
 };
 
 export const principal = {
-  name: 'Gopal Prasad Pathak',
+  name: 'Ghagendra Kumar Shrestha',
   position: 'Principal',
   image: 'public/images/principal.png',
   message: `Welcome to The Rising English Secondary Boarding School. For over two decades, we have been committed to providing quality education that nurtures young minds and prepares them for the challenges of tomorrow.
@@ -186,9 +186,9 @@ I am proud of our dedicated faculty, state-of-the-art facilities, and the achiev
 };
 
 export const vicePrincipal = {
-  name: 'Parshuram Guragain',
+  name: 'Dipendra Kumar Chaudhary',
   position: 'Vice Principal',
-  image: 'public/images/viceprincipal.jpg',
+  image: 'public/images/viceprincipal.png',
   message: `As the Vice Principal, I am honored to be part of an institution that prioritizes both academic excellence and personal growth. Our approach to education goes beyond textbooks – we focus on developing critical thinking, creativity, and compassion in our students.
 
 We maintain a supportive learning environment where students feel encouraged to explore, question, and innovate. Our comprehensive curriculum, combined with modern teaching methodologies, ensures that every child receives the best possible education.
@@ -198,12 +198,10 @@ I invite parents to partner with us in this beautiful journey of education. Toge
 
 export const classes = [
   // Pre-Primary to Class 9
-  'Nursery', 'LKG', 'UKG', 
+  'Montessori', 'Nursery', 'LKG', 'UKG', 
   'Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5', 
   'Class 6', 'Class 7', 'Class 8', 'Class 9',
-  // +2 Level
-  'Management', ' Hotel Management', 
-  ' Computer Science', ' Business Studies',
+  
   
 ];
 

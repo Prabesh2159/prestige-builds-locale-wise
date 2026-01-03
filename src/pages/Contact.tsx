@@ -81,7 +81,7 @@ const Contact = () => {
               {/* Map Section */}
               <div className="mt-6 sm:mt-8 bg-muted rounded-xl h-48 sm:h-64 overflow-hidden">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1782.622257587441!2d87.37826406955722!3d26.672661268316972!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef6f007df59963%3A0x9937a6eebe9c4906!2sThe%20rising%20english%20boarding%20school!5e0!3m2!1sen!2snp!4v1766397407651!5m2!1sen!2snp"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d222.83146375832155!2d87.19935502856967!3d26.67077678167099!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef1358b3e8134f%3A0x874be6e8192b88dc!2sUnique%20Sagarmatha%20Educational%20Academy!5e0!3m2!1sen!2snp!4v1767179338199!5m2!1sen!2snp"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}

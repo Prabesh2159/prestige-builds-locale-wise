@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, GraduationCap } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'About', path: '/about' },
-  { name: 'Academics', path: '/academics' },
   { name: 'Notices', path: '/notices' },
   { name: 'Admission', path: '/admission' },
   { name: 'Gallery', path: '/gallery' },
@@ -16,53 +15,32 @@ const navLinks = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
 
   return (
-    <nav
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isScrolled
-          ? 'bg-card/95 backdrop-blur-md shadow-lg'
-          : 'bg-primary'
-      )}
-    >
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
       <div className="container-school">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo + School Name - visible on all screen sizes */}
-          <Link to="/" className="flex items-center gap-2 sm:gap-3 group min-w-0 flex-1 lg:flex-none">
-            <div className={cn(
-              'w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all duration-300 flex-shrink-0',
-              isScrolled ? 'bg-secondary' : 'bg-secondary-foreground/20'
-            )}>
-              <img src="/images/logo1.png" alt="Logo" className="w-full h-full object-contain" />
+          
+          {/* Logo + School Name */}
+          <Link to="/" className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex-shrink-0">
+              <img
+                src="/images/logo1.png"
+                alt="Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
-            {/* School name - now visible on mobile too */}
+
             <div className="min-w-0">
-              <h1 className={cn(
-                'font-heading font-bold text-sm sm:text-lg md:text-xl leading-tight transition-colors truncate',
-                isScrolled ? 'text-foreground' : 'text-primary-foreground'
-              )}>
-                The Rising
+              <h1 className="font-heading font-bold text-sm sm:text-lg md:text-xl truncate text-foreground">
+                Brilliant Sagarmatha
               </h1>
-              <p className={cn(
-                'text-[10px] sm:text-xs transition-colors truncate',
-                isScrolled ? 'text-muted-foreground' : 'text-primary-foreground/80'
-              )}>
+              <p className="text-[10px] sm:text-xs truncate text-muted-foreground">
                 English Secondary Boarding School
               </p>
             </div>
@@ -75,14 +53,10 @@ const Navbar = () => {
                 key={link.path}
                 to={link.path}
                 className={cn(
-                  'px-4 py-2 rounded-md font-medium transition-all duration-300',
+                  'px-4 py-2 rounded-md font-medium transition-colors',
                   location.pathname === link.path
-                    ? isScrolled
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-primary-foreground/20 text-primary-foreground'
-                    : isScrolled
-                      ? 'text-foreground hover:bg-muted'
-                      : 'text-primary-foreground/90 hover:bg-primary-foreground/10 hover:text-primary-foreground'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-foreground hover:bg-muted'
                 )}
               >
                 {link.name}
@@ -94,10 +68,7 @@ const Navbar = () => {
           <Button
             variant="ghost"
             size="icon"
-            className={cn(
-              'lg:hidden',
-              isScrolled ? 'text-foreground hover:bg-muted' : 'text-primary-foreground hover:bg-primary-foreground/10'
-            )}
+            className="lg:hidden text-foreground hover:bg-muted"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -117,14 +88,10 @@ const Navbar = () => {
                 key={link.path}
                 to={link.path}
                 className={cn(
-                  'px-4 py-3 rounded-md font-medium transition-all duration-300',
+                  'px-4 py-3 rounded-md font-medium transition-colors',
                   location.pathname === link.path
-                    ? isScrolled
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-primary-foreground/20 text-primary-foreground'
-                    : isScrolled
-                      ? 'text-foreground hover:bg-muted'
-                      : 'text-primary-foreground/90 hover:bg-primary-foreground/10'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-foreground hover:bg-muted'
                 )}
               >
                 {link.name}

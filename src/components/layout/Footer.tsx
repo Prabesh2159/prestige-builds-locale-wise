@@ -16,7 +16,7 @@ const Footer = () => {
                 {/* <GraduationCap className="w-7 h-7 text-primary-foreground" /> */}
               </div>
               <div>
-                <h3 className="font-heading font-bold text-lg">The Rising</h3>
+                <h3 className="font-heading font-bold text-lg">Brilliant Sagarmatha</h3>
                 <h4 className="text-sm text-background/70">English Secondary Boarding School</h4>
               </div>
             </div>
@@ -24,10 +24,10 @@ const Footer = () => {
               {schoolInfo.tagline}. Established in {schoolInfo.established}, we have been nurturing young minds for excellence.
             </p>
             <div className="flex gap-3">
-              <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors">
+              <a href="https://www.facebook.com/profile.php?id=61557962627790" target="_blank" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors">
+              {/* <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors">
                 <Twitter className="w-5 h-5" />
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors">
@@ -35,7 +35,7 @@ const Footer = () => {
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors">
                 <Youtube className="w-5 h-5" />
-              </a>
+              </a> */}
             </div>
           </div>
 
@@ -43,7 +43,7 @@ const Footer = () => {
           <div>
             <h4 className="font-heading font-semibold text-lg mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {['Home', 'About', 'Academics', 'Admission', 'Gallery', 'Contact'].map((link) => (
+              {['Home', 'About', 'Admission', 'Gallery', 'Contact'].map((link) => (
                 <li key={link}>
                   <Link
                     to={link === 'Home' ? '/' : `/${link.toLowerCase()}`}
@@ -60,14 +60,10 @@ const Footer = () => {
           <div>
             <h4 className="font-heading font-semibold text-lg mb-4">Academics</h4>
             <ul className="space-y-2 text-sm text-background/70">
-              <li>Pre-Primary (Nursery - UKG)</li>
+              <li>Pre-Primary (Montessori - UKG)</li>
               <li>Primary Level (1-5)</li>
               <li>Lower Secondary (6-8)</li>
               <li>Secondary Level (9-10)</li>
-              <li>Higher Secondary (11-12) </li>
-              <ul>Management,Hotel Management, Computer Science, Business Studies</ul>
-              <li>Science Lab</li>
-              <li>Computer Lab</li>
             </ul>
           </div>
 

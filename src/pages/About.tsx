@@ -21,7 +21,7 @@ const About = () => {
                 A Legacy of Excellence Since {schoolInfo.established}
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                The Rising English Secondary Boarding School was founded with a vision to provide quality education that goes beyond textbooks. Over the years, we have grown from a small institution to one of the most respected schools in the region.
+              Brilliant Sagarmatha English Secondary Boarding School was founded with a vision to provide quality education that goes beyond textbooks. Over the years, we have grown from a small institution to one of the most respected schools in the region.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 Our approach to education combines rigorous academics with character development, sports, and extracurricular activities. We believe that every child has unique potential, and our role is to help them discover and nurture it.

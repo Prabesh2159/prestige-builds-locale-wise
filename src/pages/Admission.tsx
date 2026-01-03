@@ -46,8 +46,8 @@ const Admission = () => {
     { level: 'UKG', age: '5+ years', requirement: 'LKG completion required' },
     { level: 'Class 1-5', age: 'Age appropriate', requirement: 'Previous class completion certificate' },
     { level: 'Class 6-8', age: 'Age appropriate', requirement: 'Transfer certificate & marksheet' },
-    { level: 'Class 9-10', age: 'Age appropriate', requirement: 'Class 8/9 marksheet & TC' },
-    { level: '+2 Level', age: '16+ years', requirement: 'Class 10 marksheet & TC' },
+    { level: 'Class 9', age: 'Age appropriate', requirement: 'Class 8 marksheet & TC' },
+    // { level: '+2 Level', age: '16+ years', requirement: 'Class 10 marksheet & TC' },
   ];
 
   return (
