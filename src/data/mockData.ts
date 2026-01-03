@@ -54,12 +54,41 @@ export interface Notice {
   // TODO: Add createdAt, updatedAt timestamps
 }
 
-export interface GalleryImage {
-  id: string; // Primary key - UUID recommended for production
-  src: string; // TODO: Backend Integration - Use file storage service URL
+/**
+ * Single image within a gallery album
+ * TODO: Backend Integration - Use file storage service URL
+ */
+export interface GalleryImageItem {
+  id: string;
+  url: string;
   alt: string;
+}
+
+/**
+ * Gallery Album - Title-based grouped gallery
+ * 
+ * API Integration Points:
+ * - GET /api/gallery - Fetch all gallery albums
+ * - GET /api/gallery/:id - Fetch single gallery album with all images
+ * - POST /api/gallery - Create gallery album (admin)
+ * - PUT /api/gallery/:id - Update gallery album (admin)
+ * - DELETE /api/gallery/:id - Delete gallery album (admin)
+ */
+export interface GalleryAlbum {
+  id: string; // Primary key - UUID recommended for production
+  title: string; // Required gallery title
+  images: GalleryImageItem[]; // Array of images in this gallery
+  coverImage: string; // URL of cover image (first image or selected)
   date: string; // ISO 8601 format
   // TODO: Add category, tags for filtering
+}
+
+// Keep legacy interface for backward compatibility
+export interface GalleryImage {
+  id: string;
+  src: string;
+  alt: string;
+  date: string;
 }
 
 export interface ContactMessage {
@@ -137,6 +166,76 @@ export const notices: Notice[] = [
   },
 ];
 
+// Title-based gallery albums
+export const galleryAlbums: GalleryAlbum[] = [
+  { 
+    id: '1', 
+    title: 'School Building & Campus',
+    coverImage: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800',
+    images: [
+      { id: '1-1', url: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800', alt: 'Main Building' },
+      { id: '1-2', url: 'https://images.unsplash.com/photo-1562774053-701939374585?w=800', alt: 'Campus View' },
+      { id: '1-3', url: 'https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=800', alt: 'School Gate' },
+    ],
+    date: '2024-12-01' 
+  },
+  { 
+    id: '2', 
+    title: 'Classroom Activities',
+    coverImage: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800',
+    images: [
+      { id: '2-1', url: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800', alt: 'Students Learning' },
+      { id: '2-2', url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800', alt: 'Teacher Teaching' },
+    ],
+    date: '2024-11-28' 
+  },
+  { 
+    id: '3', 
+    title: 'Annual Sports Day 2024',
+    coverImage: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800',
+    images: [
+      { id: '3-1', url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800', alt: 'Sports Day Opening' },
+      { id: '3-2', url: 'https://images.unsplash.com/photo-1461896836934- voices-in-the-crowd?w=800', alt: 'Running Race' },
+      { id: '3-3', url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800', alt: 'Football Match' },
+      { id: '3-4', url: 'https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?w=800', alt: 'Prize Distribution' },
+    ],
+    date: '2024-11-25' 
+  },
+  { 
+    id: '4', 
+    title: 'Library & Reading',
+    coverImage: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800',
+    images: [
+      { id: '4-1', url: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800', alt: 'School Library' },
+      { id: '4-2', url: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800', alt: 'Students Reading' },
+    ],
+    date: '2024-11-20' 
+  },
+  { 
+    id: '5', 
+    title: 'Science Laboratory',
+    coverImage: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800',
+    images: [
+      { id: '5-1', url: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800', alt: 'Science Lab' },
+      { id: '5-2', url: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800', alt: 'Chemistry Experiment' },
+      { id: '5-3', url: 'https://images.unsplash.com/photo-1576319155264-99536e0be1ee?w=800', alt: 'Biology Class' },
+    ],
+    date: '2024-11-15' 
+  },
+  { 
+    id: '6', 
+    title: 'Cultural Program 2024',
+    coverImage: 'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?w=800',
+    images: [
+      { id: '6-1', url: 'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?w=800', alt: 'Dance Performance' },
+      { id: '6-2', url: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800', alt: 'Music Performance' },
+      { id: '6-3', url: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800', alt: 'Stage Show' },
+    ],
+    date: '2024-11-10' 
+  },
+];
+
+// Legacy flat gallery images for backward compatibility
 export const galleryImages: GalleryImage[] = [
   { id: '1', src: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800', alt: 'School Building', date: '2024-12-01' },
   { id: '2', src: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800', alt: 'Students in Classroom', date: '2024-11-28' },

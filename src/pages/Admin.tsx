@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { notices as initialNotices, galleryImages as initialGallery, contactMessages as initialMessages, admissionForms as initialAdmissions, Notice, GalleryImage, ContactMessage, AdmissionForm, NoticeAttachmentData } from '@/data/mockData';
+import { notices as initialNotices, galleryAlbums as initialGalleryAlbums, contactMessages as initialMessages, admissionForms as initialAdmissions, Notice, GalleryAlbum, GalleryImageItem, ContactMessage, AdmissionForm, NoticeAttachmentData } from '@/data/mockData';
 import NoticeAttachment from '@/components/shared/NoticeAttachment';
 import MultiFileUploader, { FileWithPreview } from '@/components/admin/MultiFileUploader';
 import {
@@ -39,7 +39,7 @@ const Admin = () => {
 
   // State for managing data
   const [notices, setNotices] = useState<Notice[]>(initialNotices);
-  const [gallery, setGallery] = useState<GalleryImage[]>(initialGallery);
+  const [galleryAlbums, setGalleryAlbums] = useState<GalleryAlbum[]>(initialGalleryAlbums);
   const [messages, setMessages] = useState<ContactMessage[]>(initialMessages);
   const [admissions, setAdmissions] = useState<AdmissionForm[]>(initialAdmissions);
 
@@ -64,9 +64,15 @@ const Admin = () => {
   const [editingNoticeAttachments, setEditingNoticeAttachments] = useState<NoticeAttachmentData[]>([]);
   const [newEditAttachments, setNewEditAttachments] = useState<FileWithPreview[]>([]);
   
-  // Gallery state with multi-file upload support
+  // Gallery state with title-based albums and multi-file upload support
   // TODO: Backend Integration - Replace Object URLs with actual upload API
+  const [newGalleryTitle, setNewGalleryTitle] = useState('');
   const [selectedFiles, setSelectedFiles] = useState<{ file: File; preview: string; alt: string }[]>([]);
+  
+  // Edit gallery state
+  const [editingGallery, setEditingGallery] = useState<GalleryAlbum | null>(null);
+  const [editGalleryImages, setEditGalleryImages] = useState<GalleryImageItem[]>([]);
+  const [newEditGalleryFiles, setNewEditGalleryFiles] = useState<{ file: File; preview: string; alt: string }[]>([]);
 
   // Message modal state
   const [viewingMessage, setViewingMessage] = useState<ContactMessage | null>(null);
@@ -104,7 +110,7 @@ const Admin = () => {
 
   const tabs = [
     { id: 'notices' as AdminTab, label: 'Notices', icon: Bell, count: notices.length },
-    { id: 'gallery' as AdminTab, label: 'Gallery', icon: Image, count: gallery.length },
+    { id: 'gallery' as AdminTab, label: 'Gallery', icon: Image, count: galleryAlbums.length },
     { id: 'messages' as AdminTab, label: 'Messages', icon: Mail, count: messages.filter(m => !m.isRead).length },
     { id: 'admissions' as AdminTab, label: 'Admissions', icon: UserPlus, count: admissions.filter(a => a.status === 'pending').length },
   ];
@@ -219,7 +225,11 @@ const Admin = () => {
     setSelectedFiles(selectedFiles.filter((_, i) => i !== index));
   };
 
-  const addImages = () => {
+  const addGalleryAlbum = () => {
+    if (!newGalleryTitle.trim()) {
+      toast({ title: 'Error', description: 'Please enter a gallery title.', variant: 'destructive' });
+      return;
+    }
     if (selectedFiles.length === 0) {
       toast({ title: 'Error', description: 'Please select at least one image.', variant: 'destructive' });
       return;
@@ -227,25 +237,91 @@ const Admin = () => {
 
     // TODO: Backend Integration - Upload files to server/storage and get permanent URLs
     // Currently using Object URLs which work for current session only
-    const newImages: GalleryImage[] = selectedFiles.map((file, index) => ({
+    const images: GalleryImageItem[] = selectedFiles.map((file, index) => ({
       id: `${Date.now()}-${index}`,
-      src: file.preview, // In production, replace with uploaded file URL
+      url: file.preview, // In production, replace with uploaded file URL
       alt: file.alt || `Image ${index + 1}`,
-      date: new Date().toISOString().split('T')[0],
     }));
 
-    setGallery([...newImages, ...gallery]);
+    const newAlbum: GalleryAlbum = {
+      id: Date.now().toString(),
+      title: newGalleryTitle,
+      images: images,
+      coverImage: images[0].url,
+      date: new Date().toISOString().split('T')[0],
+    };
+
+    setGalleryAlbums([newAlbum, ...galleryAlbums]);
+    setNewGalleryTitle('');
     setSelectedFiles([]);
     setShowAddImageForm(false);
     toast({ 
-      title: 'Images Added', 
-      description: `${newImages.length} image(s) added to gallery.` 
+      title: 'Gallery Added', 
+      description: `"${newGalleryTitle}" with ${images.length} image(s) added.` 
     });
   };
 
-  const deleteImage = (id: string) => {
-    setGallery(gallery.filter(img => img.id !== id));
-    toast({ title: 'Image Deleted', description: 'Image has been removed from gallery.' });
+  // Start editing a gallery album
+  const startEditingGallery = (album: GalleryAlbum) => {
+    setEditingGallery(album);
+    setEditGalleryImages([...album.images]);
+    setNewEditGalleryFiles([]);
+  };
+
+  // Update gallery album
+  const updateGalleryAlbum = () => {
+    if (!editingGallery) return;
+
+    // Add new images
+    const newImages: GalleryImageItem[] = newEditGalleryFiles.map((file, index) => ({
+      id: `${Date.now()}-${index}`,
+      url: file.preview,
+      alt: file.alt || `Image ${index + 1}`,
+    }));
+
+    const allImages = [...editGalleryImages, ...newImages];
+
+    const updatedAlbum: GalleryAlbum = {
+      ...editingGallery,
+      images: allImages,
+      coverImage: allImages.length > 0 ? allImages[0].url : editingGallery.coverImage,
+    };
+
+    setGalleryAlbums(galleryAlbums.map(g => g.id === editingGallery.id ? updatedAlbum : g));
+    setEditingGallery(null);
+    setEditGalleryImages([]);
+    setNewEditGalleryFiles([]);
+    toast({ title: 'Gallery Updated', description: 'Gallery album has been updated successfully.' });
+  };
+
+  // Remove image from edit mode
+  const removeEditGalleryImage = (imageId: string) => {
+    setEditGalleryImages(editGalleryImages.filter(img => img.id !== imageId));
+  };
+
+  // Handle new file selection for edit mode
+  const handleEditGalleryFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length > 0) {
+      const newFiles = files.map(file => ({
+        file,
+        preview: URL.createObjectURL(file),
+        alt: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ')
+      }));
+      setNewEditGalleryFiles([...newEditGalleryFiles, ...newFiles]);
+    }
+    e.target.value = '';
+  };
+
+  // Remove new file from edit mode
+  const removeNewEditFile = (index: number) => {
+    URL.revokeObjectURL(newEditGalleryFiles[index].preview);
+    setNewEditGalleryFiles(newEditGalleryFiles.filter((_, i) => i !== index));
+  };
+
+  const deleteGalleryAlbum = (id: string) => {
+    setGalleryAlbums(galleryAlbums.filter(album => album.id !== id));
+    toast({ title: 'Gallery Deleted', description: 'Gallery album has been removed.' });
   };
 
   // Message Management
@@ -636,26 +712,44 @@ const Admin = () => {
           {/* Gallery Tab */}
           {activeTab === 'gallery' && (
             <div className="space-y-6">
-              {/* Add Image Button */}
-              {!showAddImageForm && (
+              {/* Add Gallery Album Button */}
+              {!showAddImageForm && !editingGallery && (
                 <Button onClick={() => setShowAddImageForm(true)} className="gap-2">
                   <Plus className="w-4 h-4" />
-                  Add Gallery Images
+                  Add Gallery Album
                 </Button>
               )}
 
-              {/* Add Images Form - Multi-file Upload */}
+              {/* Add Gallery Album Form */}
               {showAddImageForm && (
                 <div className="bg-card rounded-xl p-6 shadow-md border border-border">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold text-foreground">Add New Images</h3>
+                    <h3 className="font-semibold text-foreground">Create New Gallery Album</h3>
                     <Button variant="ghost" size="icon" onClick={() => {
                       setShowAddImageForm(false);
+                      setNewGalleryTitle('');
                       selectedFiles.forEach(f => URL.revokeObjectURL(f.preview));
                       setSelectedFiles([]);
                     }}>
                       <X className="w-4 h-4" />
                     </Button>
+                  </div>
+                  
+                  {/* Gallery Title - Required */}
+                  <div className="mb-4">
+                    <Label htmlFor="gallery-title" className="block mb-2 text-sm font-medium">
+                      Gallery Title *
+                    </Label>
+                    <Input
+                      id="gallery-title"
+                      placeholder="Enter gallery title (e.g., Annual Sports Day 2024)"
+                      value={newGalleryTitle}
+                      onChange={(e) => setNewGalleryTitle(e.target.value)}
+                      className="mb-1"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      This title will be displayed on the gallery page.
+                    </p>
                   </div>
                   
                   {/* File Input for Multiple Image Selection */}
@@ -672,7 +766,7 @@ const Admin = () => {
                       className="cursor-pointer"
                     />
                     <p className="text-xs text-muted-foreground mt-1">
-                      You can select multiple images at once. Click again to add more.
+                      All selected images will be grouped under the gallery title above.
                     </p>
                     {/* TODO: Backend Integration - Connect to file upload API */}
                   </div>
@@ -714,14 +808,15 @@ const Admin = () => {
                   <div className="flex gap-2">
                     <Button variant="outline" onClick={() => {
                       setShowAddImageForm(false);
+                      setNewGalleryTitle('');
                       selectedFiles.forEach(f => URL.revokeObjectURL(f.preview));
                       setSelectedFiles([]);
                     }}>
                       Cancel
                     </Button>
-                    <Button onClick={addImages} disabled={selectedFiles.length === 0}>
+                    <Button onClick={addGalleryAlbum} disabled={!newGalleryTitle.trim() || selectedFiles.length === 0}>
                       <Plus className="w-4 h-4" />
-                      Add {selectedFiles.length > 0 ? `${selectedFiles.length} Image${selectedFiles.length > 1 ? 's' : ''}` : 'Images'}
+                      Create Gallery
                     </Button>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">
@@ -730,34 +825,152 @@ const Admin = () => {
                 </div>
               )}
 
-              {/* Gallery Grid */}
+              {/* Edit Gallery Album Form */}
+              {editingGallery && (
+                <div className="bg-card rounded-xl p-6 shadow-md border-2 border-primary">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-semibold text-foreground">Edit Gallery Album</h3>
+                    <Button variant="ghost" size="icon" onClick={() => {
+                      setEditingGallery(null);
+                      setEditGalleryImages([]);
+                      newEditGalleryFiles.forEach(f => URL.revokeObjectURL(f.preview));
+                      setNewEditGalleryFiles([]);
+                    }}>
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                  
+                  {/* Gallery Title */}
+                  <div className="mb-4">
+                    <Label className="block mb-2 text-sm font-medium">Gallery Title *</Label>
+                    <Input
+                      value={editingGallery.title}
+                      onChange={(e) => setEditingGallery({ ...editingGallery, title: e.target.value })}
+                    />
+                  </div>
+                  
+                  {/* Existing Images */}
+                  {editGalleryImages.length > 0 && (
+                    <div className="mb-4">
+                      <Label className="block mb-2 text-sm font-medium">
+                        Current Images ({editGalleryImages.length})
+                      </Label>
+                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                        {editGalleryImages.map((image) => (
+                          <div key={image.id} className="relative group">
+                            <div className="aspect-square rounded-lg overflow-hidden border-2 border-border">
+                              <img src={image.url} alt={image.alt} className="w-full h-full object-cover" />
+                            </div>
+                            <button
+                              onClick={() => removeEditGalleryImage(image.id)}
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center shadow-md hover:bg-destructive/90 transition-colors"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Add More Images */}
+                  <div className="mb-4">
+                    <Label className="block mb-2 text-sm font-medium">Add More Images</Label>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleEditGalleryFilesChange}
+                      className="cursor-pointer"
+                    />
+                  </div>
+
+                  {/* New Images Preview */}
+                  {newEditGalleryFiles.length > 0 && (
+                    <div className="mb-4">
+                      <Label className="block mb-2 text-sm font-medium">
+                        New Images ({newEditGalleryFiles.length})
+                      </Label>
+                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                        {newEditGalleryFiles.map((file, index) => (
+                          <div key={index} className="relative group">
+                            <div className="aspect-square rounded-lg overflow-hidden border-2 border-primary/50">
+                              <img src={file.preview} alt={file.alt} className="w-full h-full object-cover" />
+                            </div>
+                            <button
+                              onClick={() => removeNewEditFile(index)}
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center shadow-md hover:bg-destructive/90 transition-colors"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex gap-2">
+                    <Button onClick={updateGalleryAlbum}>
+                      Save Changes
+                    </Button>
+                    <Button variant="outline" onClick={() => {
+                      setEditingGallery(null);
+                      setEditGalleryImages([]);
+                      newEditGalleryFiles.forEach(f => URL.revokeObjectURL(f.preview));
+                      setNewEditGalleryFiles([]);
+                    }}>
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Gallery Albums List */}
               <div className="bg-card rounded-xl shadow-md overflow-hidden">
                 <div className="p-4 border-b border-border">
-                  <h3 className="font-semibold text-foreground">All Images ({gallery.length})</h3>
+                  <h3 className="font-semibold text-foreground">All Gallery Albums ({galleryAlbums.length})</h3>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-                  {gallery.map((image) => (
-                    <div key={image.id} className="relative group rounded-xl overflow-hidden shadow-md">
-                      <img
-                        src={image.src}
-                        alt={image.alt}
-                        className="w-full aspect-square object-cover"
-                      />
-                      <div className="absolute inset-0 bg-foreground/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+                  {galleryAlbums.map((album) => (
+                    <div key={album.id} className="relative group rounded-xl overflow-hidden shadow-md bg-muted">
+                      <div className="aspect-video">
+                        <img
+                          src={album.coverImage}
+                          alt={album.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="absolute inset-0 bg-foreground/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                        <Button
+                          variant="secondary"
+                          size="icon"
+                          onClick={() => startEditingGallery(album)}
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </Button>
                         <Button
                           variant="destructive"
                           size="icon"
-                          onClick={() => deleteImage(image.id)}
+                          onClick={() => deleteGalleryAlbum(album.id)}
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
-                      <div className="absolute bottom-0 left-0 right-0 p-2 bg-foreground/80 text-primary-foreground">
-                        <p className="text-sm truncate">{image.alt}</p>
+                      <div className="p-3 bg-card">
+                        <h4 className="font-semibold text-foreground truncate">{album.title}</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {album.images.length} {album.images.length === 1 ? 'photo' : 'photos'} • {album.date}
+                        </p>
                       </div>
                     </div>
                   ))}
                 </div>
+                {galleryAlbums.length === 0 && (
+                  <div className="p-12 text-center">
+                    <Image className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                    <p className="text-muted-foreground">No gallery albums yet</p>
+                  </div>
+                )}
               </div>
             </div>
           )}
