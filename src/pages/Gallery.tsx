@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { galleryImages } from '@/data/mockData';
-import { X } from 'lucide-react';
+import { galleryAlbums, GalleryAlbum } from '@/data/mockData';
 import PageHero from '@/components/shared/PageHero';
+import GalleryViewer from '@/components/gallery/GalleryViewer';
 
 const Gallery = () => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedAlbum, setSelectedAlbum] = useState<GalleryAlbum | null>(null);
 
   return (
     <div className="min-h-screen">
@@ -14,52 +14,68 @@ const Gallery = () => {
         breadcrumbs={[{ label: 'Gallery' }]}
       />
 
-      {/* Gallery Grid - All Images */}
+      {/* Gallery Grid - Album Cards */}
       <section className="section-padding">
         <div className="container-school">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {galleryImages.map((image, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {galleryAlbums.map((album, index) => (
               <div
-                key={image.id}
-                className="group relative aspect-square overflow-hidden rounded-xl cursor-pointer animate-scale-in"
+                key={album.id}
+                className="group relative overflow-hidden rounded-xl cursor-pointer animate-scale-in bg-card shadow-school hover:shadow-xl transition-all duration-300"
                 style={{ animationDelay: `${index * 0.05}s` }}
-                onClick={() => setSelectedImage(image.src)}
+                onClick={() => setSelectedAlbum(album)}
               >
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/40 transition-all duration-300 flex items-end">
-                  <div className="p-3 text-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0 w-full bg-gradient-to-t from-foreground/80 to-transparent">
-                    <p className="font-medium text-sm">{image.alt}</p>
+                {/* Cover Image */}
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={album.coverImage}
+                    alt={album.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+                
+                {/* Overlay with Title */}
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/20 to-transparent flex items-end">
+                  <div className="p-4 w-full">
+                    <h3 className="font-heading text-lg font-semibold text-primary-foreground mb-1">
+                      {album.title}
+                    </h3>
+                    <div className="flex items-center justify-between">
+                      <p className="text-primary-foreground/80 text-sm">
+                        {album.images.length} {album.images.length === 1 ? 'Photo' : 'Photos'}
+                      </p>
+                      <p className="text-primary-foreground/60 text-xs">
+                        {new Date(album.date).toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'short' 
+                        })}
+                      </p>
+                    </div>
                   </div>
                 </div>
+
+                {/* Hover Effect */}
+                <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary rounded-xl transition-colors duration-300" />
               </div>
             ))}
           </div>
+
+          {/* Empty State */}
+          {galleryAlbums.length === 0 && (
+            <div className="text-center py-16">
+              <p className="text-muted-foreground text-lg">No galleries available yet.</p>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Lightbox */}
-      {selectedImage && (
-        <div 
-          className="fixed inset-0 z-50 bg-foreground/90 flex items-center justify-center p-4 animate-fade-in"
-          onClick={() => setSelectedImage(null)}
-        >
-          <button
-            className="absolute top-4 right-4 w-12 h-12 rounded-full bg-card/20 backdrop-blur-sm flex items-center justify-center hover:bg-card/40 transition-colors"
-            onClick={() => setSelectedImage(null)}
-          >
-            <X className="w-6 h-6 text-primary-foreground" />
-          </button>
-          <img
-            src={selectedImage}
-            alt="Gallery preview"
-            className="max-w-full max-h-[90vh] rounded-lg shadow-2xl animate-scale-in"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
+      {/* Gallery Viewer Modal */}
+      {selectedAlbum && (
+        <GalleryViewer
+          images={selectedAlbum.images}
+          title={selectedAlbum.title}
+          onClose={() => setSelectedAlbum(null)}
+        />
       )}
     </div>
   );
