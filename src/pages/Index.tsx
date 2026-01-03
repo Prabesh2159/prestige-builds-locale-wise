@@ -16,57 +16,62 @@ const Index = () => {
 
   return (
     <div>
-      {/* Hero Section - Uses public/images/hero.jpg */}
-      <section className="relative min-h-[80vh] flex items-center">
+      {/* Hero Section - Enhanced with gradient overlay */}
+      <section className="relative min-h-[85vh] flex items-center">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroImagePath})` }}
         >
-          {/* Light gradient overlay for text contrast - allows hero image to be clearly visible */}
-          <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/40 to-transparent" />
+          {/* Enhanced gradient overlay for premium look */}
+          <div className="absolute inset-0 gradient-hero" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         </div>
         
         <div className="container-school relative z-10 py-20">
           <div className="max-w-3xl animate-fade-in">
-            <span className="inline-block px-4 py-2 bg-primary-foreground/20 backdrop-blur-sm rounded-full text-primary-foreground text-sm font-medium mb-6">
-              ✨ Admissions Open for 2025-2026
+            <span className="badge-new mb-6 inline-flex items-center gap-2">
+              <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+              Admissions Open for 2025-2026
             </span>
-            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
+            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
               {schoolInfo.name}
             </h1>
-            <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 leading-relaxed">
+            <p className="text-xl md:text-2xl text-white/95 mb-10 leading-relaxed drop-shadow-md">
               {schoolInfo.tagline}. We provide quality education that transforms lives and builds bright futures.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button variant="hero" size="xl" asChild>
+              <Button variant="hero" size="xl" className="bg-accent-gold text-accent-gold-foreground hover:bg-accent-gold/90 shadow-xl" asChild>
                 <Link to="/admission">
                   Apply Now
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
-              <Button variant="heroOutline" size="xl" asChild>
+              <Button variant="heroOutline" size="xl" className="border-white/40 text-white hover:bg-white/15" asChild>
                 <Link to="/about">Learn More</Link>
               </Button>
             </div>
           </div>
         </div>
+
+        {/* Decorative bottom wave */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent" />
       </section>
 
       {/* Stats Section */}
-      <section className="py-0 relative z-10 -mt-16">
+      <section className="py-0 relative z-10 -mt-12">
         <div className="container-school">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {stats.map((stat, index) => (
               <div 
                 key={index}
-                className="bg-card rounded-xl p-6 shadow-school text-center animate-slide-up"
+                className="card-elevated p-6 text-center animate-slide-up hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-accent flex items-center justify-center">
-                  <stat.icon className="w-6 h-6 text-primary" />
+                <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <stat.icon className="w-7 h-7 text-primary" />
                 </div>
                 <div className="font-heading text-2xl md:text-3xl font-bold text-foreground">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+                <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -78,7 +83,7 @@ const Index = () => {
         <div className="container-school">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-slide-up">
-              <span className="text-primary font-semibold text-sm uppercase tracking-wider">About Us</span>
+              <span className="badge-accent mb-4">About Us</span>
               <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mt-2 mb-6">
                 Welcome to Brilliant Sagarmatha English Secondary Boarding School
               </h2>
@@ -88,7 +93,7 @@ const Index = () => {
               <p className="text-muted-foreground leading-relaxed mb-8">
                 With state-of-the-art facilities, experienced faculty, and a nurturing environment, we prepare our students to face the challenges of tomorrow with confidence and competence.
               </p>
-              <Button variant="maroon" size="lg" asChild>
+              <Button variant="default" size="lg" className="shadow-lg hover:shadow-xl" asChild>
                 <Link to="/about">
                   Read More About Us
                   <ArrowRight className="w-4 h-4" />
@@ -99,22 +104,22 @@ const Index = () => {
               <img 
                 src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=400"
                 alt="School Building"
-                className="rounded-xl shadow-school w-full h-48 object-cover"
+                className="rounded-xl shadow-school w-full h-48 object-cover hover:shadow-xl transition-shadow duration-300"
               />
               <img 
                 src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400"
                 alt="Students Learning"
-                className="rounded-xl shadow-school w-full h-48 object-cover mt-8"
+                className="rounded-xl shadow-school w-full h-48 object-cover mt-8 hover:shadow-xl transition-shadow duration-300"
               />
               <img 
                 src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400"
                 alt="Science Lab"
-                className="rounded-xl shadow-school w-full h-48 object-cover"
+                className="rounded-xl shadow-school w-full h-48 object-cover hover:shadow-xl transition-shadow duration-300"
               />
               <img 
                 src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=400"
                 alt="Library"
-                className="rounded-xl shadow-school w-full h-48 object-cover mt-8"
+                className="rounded-xl shadow-school w-full h-48 object-cover mt-8 hover:shadow-xl transition-shadow duration-300"
               />
             </div>
           </div>
@@ -122,10 +127,10 @@ const Index = () => {
       </section>
 
       {/* Facilities Section */}
-      <section className="section-padding bg-muted">
+      <section className="section-padding bg-muted/50">
         <div className="container-school">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">Our Facilities</span>
+            <span className="badge-accent mb-4">Our Facilities</span>
             <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mt-2 mb-4">
               World-Class Infrastructure
             </h2>
@@ -138,13 +143,13 @@ const Index = () => {
             {facilities.map((facility, index) => (
               <div 
                 key={index}
-                className="bg-card rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
+                className="card-elevated p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
               >
                 <div className="text-4xl mb-4">{facility.icon}</div>
                 <h3 className="font-heading text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                   {facility.title}
                 </h3>
-                <p className="text-muted-foreground text-sm">{facility.description}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{facility.description}</p>
               </div>
             ))}
           </div>
@@ -152,19 +157,23 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding gradient-primary">
-        <div className="container-school text-center">
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
+      <section className="section-padding gradient-primary relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/20 rounded-full blur-3xl" />
+        
+        <div className="container-school text-center relative z-10">
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-6">
             Ready to Join The Rising Family?
           </h2>
-          <p className="text-primary-foreground/90 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-white/90 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
             Take the first step towards a brighter future. Apply for admission today and become part of our growing family of achievers.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button variant="hero" size="xl" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90" asChild>
+            <Button variant="hero" size="xl" className="bg-accent-gold text-accent-gold-foreground hover:bg-accent-gold/90 shadow-xl" asChild>
               <Link to="/admission">Apply for Admission</Link>
             </Button>
-            <Button variant="heroOutline" size="xl" asChild>
+            <Button variant="heroOutline" size="xl" className="border-white/40 text-white hover:bg-white/15" asChild>
               <Link to="/contact">Contact Us</Link>
             </Button>
           </div>
