@@ -33,7 +33,7 @@ const NoticeDetail = () => {
   return (
     <>
       <Helmet>
-        <title>{notice.title} | The Rising English Secondary Boarding School</title>
+        <title>{notice.title} | Brilliant Sagarmatha English Secondary Boarding School</title>
         <meta name="description" content={notice.description} />
         <meta property="og:title" content={notice.title} />
         <meta property="og:description" content={notice.description} />
