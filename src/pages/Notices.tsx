@@ -1,23 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
-import { notices } from '@/pages/Admin';
+import { notices } from '@/data/mockData';
 import PageHero from '@/components/shared/PageHero';
 import NoticeAttachment from '@/components/shared/NoticeAttachment';
 import { Calendar, ArrowRight } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-
-/**
- * Notices Page
- * 
- * BACKEND INTEGRATION NOTES:
- * ==========================
- * Currently imports notices from Admin component state.
- * 
- * TODO: Replace with API call:
- * - GET /api/notices - Fetch all published notices
- * - Implement loading state and error handling
- * - Add pagination for large notice lists
- */
 
 const Notices = () => {
   const location = useLocation();
@@ -29,12 +16,15 @@ const Notices = () => {
     const highlightId = params.get('highlight');
     
     if (highlightId && noticeRefs.current[highlightId]) {
+      // Scroll to the notice with a slight delay for page load
       setTimeout(() => {
         noticeRefs.current[highlightId]?.scrollIntoView({ 
           behavior: 'smooth', 
           block: 'center' 
         });
+        // Add highlight effect
         noticeRefs.current[highlightId]?.classList.add('ring-2', 'ring-primary', 'ring-offset-2');
+        // Remove highlight after 3 seconds
         setTimeout(() => {
           noticeRefs.current[highlightId]?.classList.remove('ring-2', 'ring-primary', 'ring-offset-2');
         }, 3000);
@@ -45,8 +35,8 @@ const Notices = () => {
   return (
     <>
       <Helmet>
-        <title>Notices | Brilliant Sagarmatha English Secondary Boarding School</title>
-        <meta name="description" content="Stay updated with the latest notices, announcements, and news from Brilliant Sagarmatha English Secondary Boarding School." />
+        <title>Notices | The Rising English Secondary Boarding School</title>
+        <meta name="description" content="Stay updated with the latest notices, announcements, and news from The Rising English Secondary Boarding School." />
       </Helmet>
 
       <div className="min-h-screen">

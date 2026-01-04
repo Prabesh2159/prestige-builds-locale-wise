@@ -1,21 +1,7 @@
 import { useState } from 'react';
-import { galleryAlbums } from '@/pages/Admin';
-import { GalleryAlbum } from '@/types';
+import { galleryAlbums, GalleryAlbum } from '@/data/mockData';
 import PageHero from '@/components/shared/PageHero';
 import GalleryViewer from '@/components/gallery/GalleryViewer';
-
-/**
- * Gallery Page
- * 
- * BACKEND INTEGRATION NOTES:
- * ==========================
- * Currently imports gallery albums from Admin component state.
- * 
- * TODO: Replace with API call:
- * - GET /api/gallery - Fetch all gallery albums
- * - Implement loading state and error handling
- * - Add pagination for large galleries
- */
 
 const Gallery = () => {
   const [selectedAlbum, setSelectedAlbum] = useState<GalleryAlbum | null>(null);

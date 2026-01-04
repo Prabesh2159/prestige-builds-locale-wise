@@ -1,16 +1,6 @@
-import { principal, vicePrincipal, schoolInfo } from '@/types';
+import { principal, vicePrincipal, schoolInfo } from '@/data/mockData';
 import { Target, Eye, Heart, Award } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
-
-/**
- * About Page
- * 
- * BACKEND INTEGRATION NOTES:
- * ==========================
- * Uses static school info from types.
- * 
- * TODO: Consider making leadership messages editable via admin panel
- */
 
 const About = () => {
   return (

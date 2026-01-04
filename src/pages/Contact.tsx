@@ -4,22 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { schoolInfo } from '@/types';
+import { schoolInfo } from '@/data/mockData';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
-
-/**
- * Contact Page
- * 
- * BACKEND INTEGRATION NOTES:
- * ==========================
- * Form submissions are currently simulated.
- * 
- * TODO: Replace with API call:
- * - POST /api/contact - Submit contact message
- * - Implement form validation with zod
- * - Add rate limiting to prevent spam
- */
 
 const Contact = () => {
   const { toast } = useToast();
@@ -29,10 +16,7 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // TODO: Replace with actual API call - POST /api/contact
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    
     toast({
       title: 'Message Sent!',
       description: 'Thank you for contacting us. We will get back to you soon.',
