@@ -4,7 +4,10 @@ import { Button } from '@/components/ui/button';
 import { schoolInfo, facilities } from '@/data/mockData';
 
 // Use hero image from public folder for Home page only
-const heroImagePath = '/images/building.jpeg';
+const 
+
+
+heroImagePath = '/images/building.jpeg';
 
 const Index = () => {
   const stats = [
@@ -16,7 +19,7 @@ const Index = () => {
 
   return (
     <div>
-      {/* Hero Section - Uses public/images/hero.jpg */}
+      {/* Hero Section - Uses images/hero.jpg */}
       <section className="relative min-h-[80vh] flex items-center">
         <div 
           className="absolute inset-0 bg-cover bg-center"
@@ -97,22 +100,22 @@ const Index = () => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <img 
-                src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=400"
+                src="images/1.jpg"
                 alt="School Building"
                 className="rounded-xl shadow-school w-full h-48 object-cover"
               />
               <img 
-                src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400"
+                src="images/2.jpg"
                 alt="Students Learning"
                 className="rounded-xl shadow-school w-full h-48 object-cover mt-8"
               />
               <img 
-                src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400"
+                src="images/3.jpg"
                 alt="Science Lab"
                 className="rounded-xl shadow-school w-full h-48 object-cover"
               />
               <img 
-                src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=400"
+                src="images/4.jpg"
                 alt="Library"
                 className="rounded-xl shadow-school w-full h-48 object-cover mt-8"
               />
@@ -155,7 +158,7 @@ const Index = () => {
       <section className="section-padding gradient-primary">
         <div className="container-school text-center">
           <h2 className="font-heading text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
-            Ready to Join The Rising Family?
+            Ready to Join Brilliant Sagarmatha family?
           </h2>
           <p className="text-primary-foreground/90 text-lg mb-8 max-w-2xl mx-auto">
             Take the first step towards a brighter future. Apply for admission today and become part of our growing family of achievers.

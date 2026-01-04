@@ -276,8 +276,8 @@ export const schoolInfo = {
 export const principal = {
   name: 'Ghagendra Kumar Shrestha',
   position: 'Principal',
-  image: 'public/images/principal.png',
-  message: `Welcome to The Rising English Secondary Boarding School. For over two decades, we have been committed to providing quality education that nurtures young minds and prepares them for the challenges of tomorrow.
+  image: 'images/principal.png',
+  message: `Welcome to Brilliant Sagarmatha English Secondary Boarding School. For over two decades, we have been committed to providing quality education that nurtures young minds and prepares them for the challenges of tomorrow.
 
 Our school believes in holistic development, combining academic excellence with character building, sports, and extracurricular activities. We strive to create an environment where every student can discover their potential and grow into responsible citizens.
 
@@ -287,7 +287,7 @@ I am proud of our dedicated faculty, state-of-the-art facilities, and the achiev
 export const vicePrincipal = {
   name: 'Dipendra Kumar Chaudhary',
   position: 'Vice Principal',
-  image: 'public/images/viceprincipal.png',
+  image: 'images/viceprincipal.png',
   message: `As the Vice Principal, I am honored to be part of an institution that prioritizes both academic excellence and personal growth. Our approach to education goes beyond textbooks – we focus on developing critical thinking, creativity, and compassion in our students.
 
 We maintain a supportive learning environment where students feel encouraged to explore, question, and innovate. Our comprehensive curriculum, combined with modern teaching methodologies, ensures that every child receives the best possible education.
@@ -314,6 +314,6 @@ export const facilities = [
   { icon: '🔬', title: 'Science Labs', description: 'Fully equipped Physics, Chemistry, and Biology laboratories' },
   { icon: '💻', title: 'Computer Lab', description: 'Latest computers with high-speed internet' },
   { icon: '📚', title: 'Library', description: 'Extensive collection of books, journals, and digital resources' },
-  { icon: '🏀', title: 'Sports Complex', description: 'Basketball court, football ground, and indoor games' },
-  { icon: '🏠', title: 'Day Bodus', description: 'Day Bodus facilities with proper supervision' },
+  { icon: '🏐', title: 'Sports Complex', description: 'Volleyball court, football ground, and indoor games' },
+  // { icon: '🏠', title: 'Day Bodus', description: 'Day Bodus facilities with proper supervision' },
 ];

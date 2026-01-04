@@ -360,7 +360,7 @@ const Admin = () => {
               <GraduationCap className="w-10 h-10 text-primary-foreground" />
             </div>
             <h1 className="font-heading text-3xl font-bold text-foreground">Admin Panel</h1>
-            <p className="text-muted-foreground mt-2">The Rising English Secondary Boarding School</p>
+            <p className="text-muted-foreground mt-2">Brilliant Sagarmatha English Secondary Boarding School</p>
           </div>
 
           <form onSubmit={handleLogin} className="bg-card rounded-xl p-8 shadow-school border border-border">
@@ -402,30 +402,30 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="h-screen bg-background flex overflow-hidden">
       {/* Sidebar */}
       <aside className={cn(
-        'fixed lg:static inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transition-transform duration-300',
+        'fixed lg:static inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transition-transform duration-300 h-screen overflow-hidden',
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-20'
       )}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="p-4 border-b border-border">
+          <div className="p-4 border-b border-border shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-11 h-10  flex items-center justify-center">
-                <img src="public/images/logo1.png" alt="School Logo" className="w-6 h-6" />
+                <img src="images/logo1.png" alt="School Logo" className="w-6 h-6" />
               </div>
               {isSidebarOpen && (
                 <div>
                   <h2 className="font-heading font-bold text-foreground">Admin</h2>
-                  <p className="text-xs text-muted-foreground">The Rising English Secondary Boarding School</p>
+                  <p className="text-xs text-muted-foreground">Brilliant Sagarmatha English Secondary Boarding School</p>
                 </div>
               )}
             </div>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-2">
+          <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -456,7 +456,7 @@ const Admin = () => {
           </nav>
 
           {/* Footer */}
-          <div className="p-4 border-t border-border space-y-2">
+          <div className="p-4 border-t border-border space-y-2 shrink-0">
             <Button
               variant="ghost"
               className="w-full justify-start gap-3"
@@ -478,7 +478,7 @@ const Admin = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 min-h-screen">
+      <main className="flex-1 h-screen overflow-y-auto flex flex-col">
         {/* Top Bar */}
         <header className="sticky top-0 z-40 bg-card/95 backdrop-blur-sm border-b border-border">
           <div className="flex items-center justify-between px-6 py-4">
@@ -507,7 +507,7 @@ const Admin = () => {
         </header>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-6 flex-1">
           {/* Notices Tab */}
           {activeTab === 'notices' && (
             <div className="space-y-6">
