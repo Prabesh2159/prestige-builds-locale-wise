@@ -402,13 +402,13 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="h-screen bg-background flex overflow-hidden">
       {/* Sidebar */}
       <aside className={cn(
-        'fixed lg:static inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transition-transform duration-300',
+        'fixed lg:static inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transition-transform duration-300 overflow-hidden',
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-20'
       )}>
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full overflow-hidden">
           {/* Header */}
           <div className="p-4 border-b border-border">
             <div className="flex items-center gap-3">
@@ -478,9 +478,9 @@ const Admin = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 min-h-screen">
+      <main className="flex-1 flex flex-col overflow-hidden lg:ml-0">
         {/* Top Bar */}
-        <header className="sticky top-0 z-40 bg-card/95 backdrop-blur-sm border-b border-border">
+        <header className="sticky top-0 z-40 bg-card/95 backdrop-blur-sm border-b border-border flex-shrink-0">
           <div className="flex items-center justify-between px-6 py-4">
             <div className="flex items-center gap-4">
               <Button
@@ -507,7 +507,7 @@ const Admin = () => {
         </header>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="flex-1 overflow-y-auto p-6">
           {/* Notices Tab */}
           {activeTab === 'notices' && (
             <div className="space-y-6">
