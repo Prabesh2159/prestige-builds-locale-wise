@@ -10,7 +10,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { notices as initialNotices, galleryAlbums as initialGalleryAlbums, contactMessages as initialMessages, admissionForms as initialAdmissions, Notice, GalleryAlbum, GalleryImageItem, ContactMessage, AdmissionForm, NoticeAttachmentData } from '@/data/mockData';
+import { useAuth } from '@/contexts/AuthContext';
+import { Notice, GalleryAlbum, GalleryImageItem, ContactMessage, AdmissionForm, NoticeAttachmentData } from '@/types';
 import NoticeAttachment from '@/components/shared/NoticeAttachment';
 import MultiFileUploader, { FileWithPreview } from '@/components/admin/MultiFileUploader';
 import {
@@ -29,15 +30,162 @@ import {
 
 type AdminTab = 'notices' | 'gallery' | 'messages' | 'admissions';
 
+/**
+ * Admin Panel Component
+ * 
+ * BACKEND INTEGRATION NOTES:
+ * ==========================
+ * All data is currently stored in component state.
+ * 
+ * TODO: Replace with API calls:
+ * - GET /api/notices, /api/gallery, /api/messages, /api/admissions
+ * - POST/PUT/DELETE for CRUD operations
+ * - Implement loading states and error handling
+ */
+
+// Initial data - stored in component state
+// TODO: Replace with API fetches from backend
+const initialNotices: Notice[] = [
+  { 
+    id: '1', 
+    title: '📚 Annual Examination Schedule Released - Check Academic Calendar', 
+    description: 'The examination schedule for the upcoming annual exams has been released. Students and parents are requested to check the academic calendar for detailed timing.',
+    fullContent: 'The examination schedule for the upcoming annual exams has been released. Students and parents are requested to check the academic calendar for detailed timing.\n\nThe examinations will commence from January 20, 2025, and will continue till February 15, 2025. All students are advised to prepare well and follow the schedule strictly.\n\nKey Points:\n- Hall tickets will be distributed from January 15, 2025\n- Students must report 30 minutes before the exam\n- Carry necessary stationery items\n- Mobile phones are strictly prohibited in the examination hall\n\nFor any queries, please contact the examination cell.',
+    date: '2024-12-20', 
+    attachment: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800',
+    attachmentType: 'image',
+    isNew: true 
+  },
+  { 
+    id: '2', 
+    title: '🏆 Congratulations to our students for winning Inter-School Sports Championship!', 
+    description: 'Our school has won the prestigious Inter-School Sports Championship. Congratulations to all participating students and coaches.',
+    fullContent: 'We are proud to announce that our school has won the prestigious Inter-School Sports Championship held at the National Stadium from December 10-15, 2024.\n\nOur students secured first position in multiple events including:\n- Basketball (Senior Category)\n- Football (Junior Category)\n- Athletics - 100m and 200m races\n- Table Tennis (Boys and Girls)\n\nSpecial congratulations to:\n- Rajan Sharma - Best Athlete Award\n- Anita Gurung - Best Football Player\n- The Basketball Team - Undefeated Champions\n\nWe thank all the coaches, parents, and staff for their continuous support. This victory is a testament to our commitment to holistic education.',
+    date: '2024-12-18', 
+    attachment: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800',
+    attachmentType: 'image',
+    isNew: true 
+  },
+  { 
+    id: '3', 
+    title: '📅 Winter Vacation: December 25, 2024 - January 5, 2025', 
+    description: 'The school will remain closed for winter vacation from December 25, 2024, to January 5, 2025. Classes resume on January 6, 2025.',
+    fullContent: 'The school will remain closed for winter vacation from December 25, 2024, to January 5, 2025. Classes will resume on January 6, 2025.\n\nDuring the vacation period:\n- The school office will remain open from 10 AM to 2 PM for urgent matters\n- Library will remain closed\n- Hostel students can either stay or go home with written permission from parents\n\nWe wish all students and their families a joyful holiday season!\n\nNote: Students are encouraged to complete their holiday assignments and revise for the upcoming examinations.',
+    date: '2024-12-15', 
+    isNew: false 
+  },
+  { 
+    id: '4', 
+    title: '🎭 Annual Cultural Program on January 15, 2025 - Parents are cordially invited', 
+    description: 'The Annual Cultural Program 2025 will be held on January 15, 2025. All parents and guardians are cordially invited to attend.',
+    fullContent: 'We are pleased to invite all parents and guardians to our Annual Cultural Program 2025.\n\nEvent Details:\n- Date: January 15, 2025\n- Time: 10:00 AM onwards\n- Venue: School Auditorium\n\nProgram Highlights:\n- Welcome Dance by Pre-Primary Students\n- Drama: "The Value of Education"\n- Musical Performance by School Band\n- Traditional Dance Performances\n- Prize Distribution Ceremony\n- Annual Report Presentation\n\nPlease confirm your attendance by January 10, 2025, at the school office or through the class teacher.\n\nWe look forward to your gracious presence!',
+    date: '2024-12-10', 
+    attachment: 'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?w=800',
+    attachmentType: 'image',
+    isNew: false 
+  },
+  { 
+    id: '5', 
+    title: '📝 Admission Open for Academic Year 2025-2026 - Apply Now!', 
+    description: 'Admissions are now open for the academic year 2025-2026 for classes Nursery to Class 10. Apply now to secure your child\'s future.',
+    fullContent: 'Admissions are now open for the academic year 2025-2026 for classes Nursery to Class 10.\n\nKey Dates:\n- Application Start: December 1, 2024\n- Application Deadline: February 28, 2025\n- Entrance Test: March 10-15, 2025\n- Results: March 25, 2025\n\nDocuments Required:\n- Birth Certificate\n- Previous Academic Records\n- Character Certificate (for Class 6 and above)\n- Passport-size photographs (4 copies)\n- Parents\' ID proof\n\nWhy Choose Us:\n- Experienced and dedicated faculty\n- Modern infrastructure and facilities\n- Focus on holistic development\n- Excellent academic track record\n- Safe and nurturing environment\n\nFor more information, visit our Admission page or contact the school office.',
+    date: '2024-12-05', 
+    attachment: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800',
+    attachmentType: 'image',
+    isNew: true 
+  },
+];
+
+const initialGalleryAlbums: GalleryAlbum[] = [
+  { 
+    id: '1', 
+    title: 'School Building & Campus',
+    coverImage: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800',
+    images: [
+      { id: '1-1', url: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800', alt: 'Main Building' },
+      { id: '1-2', url: 'https://images.unsplash.com/photo-1562774053-701939374585?w=800', alt: 'Campus View' },
+      { id: '1-3', url: 'https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=800', alt: 'School Gate' },
+    ],
+    date: '2024-12-01' 
+  },
+  { 
+    id: '2', 
+    title: 'Classroom Activities',
+    coverImage: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800',
+    images: [
+      { id: '2-1', url: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800', alt: 'Students Learning' },
+      { id: '2-2', url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800', alt: 'Teacher Teaching' },
+    ],
+    date: '2024-11-28' 
+  },
+  { 
+    id: '3', 
+    title: 'Annual Sports Day 2024',
+    coverImage: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800',
+    images: [
+      { id: '3-1', url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800', alt: 'Sports Day Opening' },
+      { id: '3-2', url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800', alt: 'Football Match' },
+    ],
+    date: '2024-11-25' 
+  },
+  { 
+    id: '4', 
+    title: 'Library & Reading',
+    coverImage: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800',
+    images: [
+      { id: '4-1', url: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800', alt: 'School Library' },
+      { id: '4-2', url: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800', alt: 'Students Reading' },
+    ],
+    date: '2024-11-20' 
+  },
+  { 
+    id: '5', 
+    title: 'Science Laboratory',
+    coverImage: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800',
+    images: [
+      { id: '5-1', url: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800', alt: 'Science Lab' },
+      { id: '5-2', url: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800', alt: 'Chemistry Experiment' },
+    ],
+    date: '2024-11-15' 
+  },
+  { 
+    id: '6', 
+    title: 'Cultural Program 2024',
+    coverImage: 'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?w=800',
+    images: [
+      { id: '6-1', url: 'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?w=800', alt: 'Dance Performance' },
+      { id: '6-2', url: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800', alt: 'Music Performance' },
+    ],
+    date: '2024-11-10' 
+  },
+];
+
+const initialMessages: ContactMessage[] = [
+  { id: '1', name: 'Ram Sharma', email: 'ram@example.com', phone: '+977-9841234567', message: 'I would like to know about the admission process for Class 5.', date: '2024-12-20', isRead: false },
+  { id: '2', name: 'Sita Thapa', email: 'sita@example.com', phone: '+977-9851234567', message: 'What are the school timings and transportation facilities?', date: '2024-12-19', isRead: true },
+  { id: '3', name: 'Hari Prasad', email: 'hari@example.com', phone: '+977-9861234567', message: 'Please share the fee structure for boarding students.', date: '2024-12-18', isRead: false },
+];
+
+const initialAdmissions: AdmissionForm[] = [
+  { id: '1', name: 'Arun Kumar', phone: '+977-9801234567', email: 'arun@example.com', address: 'Biratnagar-10, Morang', classApplying: 'Class 5', message: 'Looking for admission for my son in the upcoming academic year.', date: '2024-12-20', status: 'pending' },
+  { id: '2', name: 'Sunita Rai', phone: '+977-9812345678', email: 'sunita@example.com', address: 'Dharan-5, Sunsari', classApplying: 'Class 8', message: 'We are relocating from Kathmandu and would like to know about hostel facilities.', date: '2024-12-19', status: 'reviewed' },
+  { id: '3', name: 'Bikash Limbu', phone: '+977-9823456789', email: 'bikash@example.com', address: 'Itahari-8, Sunsari', classApplying: 'Nursery', message: 'I want to enroll my daughter in nursery for the 2025 session.', date: '2024-12-18', status: 'approved' },
+];
+
+// Export notices for use in other pages (Notices, NoticeDetail, NewsTicker)
+// TODO: Replace with shared state management or API calls
+export { initialNotices as notices };
+export { initialGalleryAlbums as galleryAlbums };
+
 const Admin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { logout } = useAuth();
   const [activeTab, setActiveTab] = useState<AdminTab>('notices');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loginData, setLoginData] = useState({ username: '', password: '' });
 
-  // State for managing data
+  // State for managing data - component level state
+  // TODO: Replace with API calls and global state management
   const [notices, setNotices] = useState<Notice[]>(initialNotices);
   const [galleryAlbums, setGalleryAlbums] = useState<GalleryAlbum[]>(initialGalleryAlbums);
   const [messages, setMessages] = useState<ContactMessage[]>(initialMessages);
@@ -56,56 +204,26 @@ const Admin = () => {
     isNew: true 
   });
   
-  // Multiple notice attachments (images and PDFs)
-  // TODO: Backend Integration - Replace Object URLs with actual upload API
+  // Multiple notice attachments
   const [noticeAttachments, setNoticeAttachments] = useState<FileWithPreview[]>([]);
-  
-  // For editing - track existing attachments to remove
   const [editingNoticeAttachments, setEditingNoticeAttachments] = useState<NoticeAttachmentData[]>([]);
   const [newEditAttachments, setNewEditAttachments] = useState<FileWithPreview[]>([]);
   
-  // Gallery state with title-based albums and multi-file upload support
-  // TODO: Backend Integration - Replace Object URLs with actual upload API
+  // Gallery state
   const [newGalleryTitle, setNewGalleryTitle] = useState('');
   const [selectedFiles, setSelectedFiles] = useState<{ file: File; preview: string; alt: string }[]>([]);
-  
-  // Edit gallery state
   const [editingGallery, setEditingGallery] = useState<GalleryAlbum | null>(null);
   const [editGalleryImages, setEditGalleryImages] = useState<GalleryImageItem[]>([]);
   const [newEditGalleryFiles, setNewEditGalleryFiles] = useState<{ file: File; preview: string; alt: string }[]>([]);
 
-  // Message modal state
+  // Modal states
   const [viewingMessage, setViewingMessage] = useState<ContactMessage | null>(null);
-  
-  // Admission modal state
   const [viewingAdmission, setViewingAdmission] = useState<AdmissionForm | null>(null);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Existing Escape key logic
-      if (e.key === 'Escape') {
-        navigate('/login');
-      }
-
-      // New Logic: Ctrl + Alt + P to open login and fill credentials
-      if (e.ctrlKey && e.altKey && (e.key === 'p' || e.key === 'P')) {
-        e.preventDefault();
-        setIsAuthenticated(true); // Force logout/show login screen
-        setLoginData({ username: 'username', password: 'password' }); // Fill credentials
-        toast({ title: 'Developer Mode', description: 'Login credentials auto-filled.' });
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [navigate, toast]);
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Placeholder authentication - Backend integration point
-    if (loginData.username && loginData.password) {
-      setIsAuthenticated(true);
-      toast({ title: 'Welcome!', description: 'You have logged in successfully.' });
-    }
+  const handleLogout = () => {
+    logout();
+    toast({ title: 'Logged Out', description: 'You have been logged out successfully.' });
+    navigate('/');
   };
 
   const tabs = [
@@ -115,33 +233,29 @@ const Admin = () => {
     { id: 'admissions' as AdminTab, label: 'Admissions', icon: UserPlus, count: admissions.filter(a => a.status === 'pending').length },
   ];
 
-  // Clear all notice attachments
+  // Notice attachment helpers
   const clearNoticeAttachments = () => {
     noticeAttachments.forEach(f => URL.revokeObjectURL(f.preview));
     setNoticeAttachments([]);
   };
 
-  // Clear edit mode attachments
   const clearEditAttachments = () => {
     newEditAttachments.forEach(f => URL.revokeObjectURL(f.preview));
     setNewEditAttachments([]);
     setEditingNoticeAttachments([]);
   };
 
-  // Remove existing attachment from edit mode
   const removeExistingAttachment = (id: string) => {
     setEditingNoticeAttachments(prev => prev.filter(a => a.id !== id));
   };
 
-  // Notice Management
+  // Notice CRUD
   const addNotice = () => {
     if (!newNotice.title.trim()) return;
     
-    // Convert FileWithPreview to NoticeAttachmentData
-    // TODO: Backend Integration - Upload files to storage and get permanent URLs
     const attachments: NoticeAttachmentData[] = noticeAttachments.map(f => ({
       id: f.id,
-      url: f.preview, // In production, replace with uploaded file URL
+      url: f.preview,
       type: f.type,
       name: f.name
     }));
@@ -152,18 +266,16 @@ const Admin = () => {
       description: newNotice.description || newNotice.title,
       fullContent: newNotice.fullContent || newNotice.description || newNotice.title,
       date: new Date().toISOString().split('T')[0],
-      // Multiple attachments support
       attachments: attachments.length > 0 ? attachments : undefined,
       isNew: newNotice.isNew,
     };
     setNotices([notice, ...notices]);
     setNewNotice({ title: '', description: '', fullContent: '', isNew: true });
-    setNoticeAttachments([]); // Don't revoke URLs since they're now used in the notice
+    setNoticeAttachments([]);
     setShowAddNoticeForm(false);
     toast({ title: 'Notice Added', description: 'New notice has been published.' });
   };
 
-  // Start editing a notice
   const startEditingNotice = (notice: Notice) => {
     setEditingNotice(notice);
     setEditingNoticeAttachments(notice.attachments || []);
@@ -173,8 +285,6 @@ const Admin = () => {
   const updateNotice = () => {
     if (!editingNotice) return;
     
-    // Combine existing attachments with new ones
-    // TODO: Backend Integration - Upload new files and get permanent URLs
     const newAttachments: NoticeAttachmentData[] = newEditAttachments.map(f => ({
       id: f.id,
       url: f.preview,
@@ -200,19 +310,17 @@ const Admin = () => {
     toast({ title: 'Notice Deleted', description: 'Notice has been removed.' });
   };
 
-  // Gallery Management - Multi-file upload with Object URLs for frontend-only operation
-  // TODO: Backend Integration - Replace Object URLs with actual upload API
+  // Gallery CRUD
   const handleImageFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length > 0) {
       const newFiles = files.map(file => ({
         file,
         preview: URL.createObjectURL(file),
-        alt: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ') // Default alt from filename
+        alt: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ')
       }));
       setSelectedFiles([...selectedFiles, ...newFiles]);
     }
-    // Reset input to allow selecting same files again
     e.target.value = '';
   };
 
@@ -235,11 +343,9 @@ const Admin = () => {
       return;
     }
 
-    // TODO: Backend Integration - Upload files to server/storage and get permanent URLs
-    // Currently using Object URLs which work for current session only
     const images: GalleryImageItem[] = selectedFiles.map((file, index) => ({
       id: `${Date.now()}-${index}`,
-      url: file.preview, // In production, replace with uploaded file URL
+      url: file.preview,
       alt: file.alt || `Image ${index + 1}`,
     }));
 
@@ -255,24 +361,18 @@ const Admin = () => {
     setNewGalleryTitle('');
     setSelectedFiles([]);
     setShowAddImageForm(false);
-    toast({ 
-      title: 'Gallery Added', 
-      description: `"${newGalleryTitle}" with ${images.length} image(s) added.` 
-    });
+    toast({ title: 'Gallery Added', description: `"${newGalleryTitle}" with ${images.length} image(s) added.` });
   };
 
-  // Start editing a gallery album
   const startEditingGallery = (album: GalleryAlbum) => {
     setEditingGallery(album);
     setEditGalleryImages([...album.images]);
     setNewEditGalleryFiles([]);
   };
 
-  // Update gallery album
   const updateGalleryAlbum = () => {
     if (!editingGallery) return;
 
-    // Add new images
     const newImages: GalleryImageItem[] = newEditGalleryFiles.map((file, index) => ({
       id: `${Date.now()}-${index}`,
       url: file.preview,
@@ -294,12 +394,10 @@ const Admin = () => {
     toast({ title: 'Gallery Updated', description: 'Gallery album has been updated successfully.' });
   };
 
-  // Remove image from edit mode
   const removeEditGalleryImage = (imageId: string) => {
     setEditGalleryImages(editGalleryImages.filter(img => img.id !== imageId));
   };
 
-  // Handle new file selection for edit mode
   const handleEditGalleryFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length > 0) {
@@ -313,7 +411,6 @@ const Admin = () => {
     e.target.value = '';
   };
 
-  // Remove new file from edit mode
   const removeNewEditFile = (index: number) => {
     URL.revokeObjectURL(newEditGalleryFiles[index].preview);
     setNewEditGalleryFiles(newEditGalleryFiles.filter((_, i) => i !== index));
@@ -324,7 +421,7 @@ const Admin = () => {
     toast({ title: 'Gallery Deleted', description: 'Gallery album has been removed.' });
   };
 
-  // Message Management
+  // Message CRUD
   const toggleMessageRead = (id: string) => {
     setMessages(messages.map(m => m.id === id ? { ...m, isRead: !m.isRead } : m));
   };
@@ -335,7 +432,7 @@ const Admin = () => {
     toast({ title: 'Message Deleted', description: 'Message has been removed.' });
   };
 
-  // Admission Management
+  // Admission CRUD
   const updateAdmissionStatus = (id: string, status: AdmissionForm['status']) => {
     setAdmissions(admissions.map(a => a.id === id ? { ...a, status } : a));
     if (viewingAdmission?.id === id) {
@@ -350,57 +447,6 @@ const Admin = () => {
     toast({ title: 'Admission Deleted', description: 'Admission record has been removed.' });
   };
 
-  // Login Screen
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-primary/5 flex items-center justify-center p-4">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <div className="w-20 h-20 mx-auto rounded-full bg-primary flex items-center justify-center mb-4 shadow-lg">
-              <GraduationCap className="w-10 h-10 text-primary-foreground" />
-            </div>
-            <h1 className="font-heading text-3xl font-bold text-foreground">Admin Panel</h1>
-            <p className="text-muted-foreground mt-2">Brilliant Sagarmatha English Secondary Boarding School</p>
-          </div>
-
-          <form onSubmit={handleLogin} className="bg-card rounded-xl p-8 shadow-school border border-border">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="username" className="text-foreground font-medium">Username</Label>
-                <Input
-                  id="username"
-                  placeholder="Enter username"
-                  value={loginData.username}
-                  onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
-                  required
-                  className="h-12"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-foreground font-medium">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter password"
-                  value={loginData.password}
-                  onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                  required
-                  className="h-12"
-                />
-              </div>
-            </div>
-            <Button type="submit" className="w-full mt-6 h-12 text-base font-semibold">
-              Login to Dashboard
-            </Button>
-            <p className="text-center text-sm text-muted-foreground mt-4">
-              Press <kbd className="px-2 py-1 bg-muted rounded text-xs font-mono">Esc</kbd> to go back to website
-            </p>
-          </form>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="h-screen bg-background flex overflow-hidden">
       {/* Sidebar */}
@@ -412,13 +458,13 @@ const Admin = () => {
           {/* Header */}
           <div className="p-4 border-b border-border shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-10  flex items-center justify-center">
+              <div className="w-11 h-10 flex items-center justify-center">
                 <img src="images/logo1.png" alt="School Logo" className="w-6 h-6" />
               </div>
               {isSidebarOpen && (
                 <div>
                   <h2 className="font-heading font-bold text-foreground">Admin</h2>
-                  <p className="text-xs text-muted-foreground">Brilliant Sagarmatha English Secondary Boarding School</p>
+                  <p className="text-xs text-muted-foreground">Brilliant Sagarmatha</p>
                 </div>
               )}
             </div>
@@ -468,7 +514,7 @@ const Admin = () => {
             <Button
               variant="ghost"
               className="w-full justify-start gap-3 text-destructive hover:text-destructive"
-              onClick={() => setIsAuthenticated(false)}
+              onClick={handleLogout}
             >
               <LogOut className="w-5 h-5" />
               {isSidebarOpen && 'Logout'}
@@ -511,7 +557,6 @@ const Admin = () => {
           {/* Notices Tab */}
           {activeTab === 'notices' && (
             <div className="space-y-6">
-              {/* Add Notice Button */}
               {!showAddNoticeForm && !editingNotice && (
                 <Button onClick={() => setShowAddNoticeForm(true)} className="gap-2">
                   <Plus className="w-4 h-4" />
@@ -554,14 +599,13 @@ const Admin = () => {
                       <Label htmlFor="notice-content" className="block mb-2">Full Content</Label>
                       <Textarea
                         id="notice-content"
-                        placeholder="Full notice content... (Use empty lines to separate paragraphs)"
+                        placeholder="Full notice content..."
                         value={newNotice.fullContent}
                         onChange={(e) => setNewNotice({ ...newNotice, fullContent: e.target.value })}
                         rows={6}
                       />
                     </div>
                     
-                    {/* Multi-File Upload for Images and PDFs */}
                     <MultiFileUploader
                       files={noticeAttachments}
                       onChange={setNoticeAttachments}
@@ -595,7 +639,7 @@ const Admin = () => {
                 </div>
               )}
 
-              {/* Edit Notice Form - Full View */}
+              {/* Edit Notice Form */}
               {editingNotice && (
                 <div className="bg-card rounded-xl p-4 sm:p-6 shadow-md border-2 border-primary">
                   <div className="flex items-center justify-between mb-6">
@@ -608,7 +652,6 @@ const Admin = () => {
                     </Button>
                   </div>
                   <div className="space-y-6">
-                    {/* Title */}
                     <div>
                       <Label className="block mb-2">Title *</Label>
                       <Input
@@ -616,8 +659,6 @@ const Admin = () => {
                         onChange={(e) => setEditingNotice({ ...editingNotice, title: e.target.value })}
                       />
                     </div>
-                    
-                    {/* Description */}
                     <div>
                       <Label className="block mb-2">Short Description</Label>
                       <Input
@@ -625,8 +666,6 @@ const Admin = () => {
                         onChange={(e) => setEditingNotice({ ...editingNotice, description: e.target.value })}
                       />
                     </div>
-                    
-                    {/* Full Content - Larger textarea for full view */}
                     <div>
                       <Label className="block mb-2">Full Content</Label>
                       <Textarea
@@ -637,7 +676,6 @@ const Admin = () => {
                       />
                     </div>
                     
-                    {/* Multi-File Upload for Attachments */}
                     <MultiFileUploader
                       files={newEditAttachments}
                       onChange={setNewEditAttachments}
@@ -646,7 +684,6 @@ const Admin = () => {
                       label="Attachments (Images & PDFs)"
                     />
                     
-                    {/* Mark as New */}
                     <div>
                       <label className="flex items-center gap-2 text-sm">
                         <input
@@ -659,7 +696,6 @@ const Admin = () => {
                       </label>
                     </div>
                     
-                    {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-border">
                       <Button onClick={updateNotice} className="flex-1 sm:flex-none">
                         Save Changes
@@ -712,7 +748,6 @@ const Admin = () => {
           {/* Gallery Tab */}
           {activeTab === 'gallery' && (
             <div className="space-y-6">
-              {/* Add Gallery Album Button */}
               {!showAddImageForm && !editingGallery && (
                 <Button onClick={() => setShowAddImageForm(true)} className="gap-2">
                   <Plus className="w-4 h-4" />
@@ -720,7 +755,7 @@ const Admin = () => {
                 </Button>
               )}
 
-              {/* Add Gallery Album Form */}
+              {/* Add Gallery Form */}
               {showAddImageForm && (
                 <div className="bg-card rounded-xl p-6 shadow-md border border-border">
                   <div className="flex items-center justify-between mb-4">
@@ -735,7 +770,6 @@ const Admin = () => {
                     </Button>
                   </div>
                   
-                  {/* Gallery Title - Required */}
                   <div className="mb-4">
                     <Label htmlFor="gallery-title" className="block mb-2 text-sm font-medium">
                       Gallery Title *
@@ -745,14 +779,9 @@ const Admin = () => {
                       placeholder="Enter gallery title (e.g., Annual Sports Day 2024)"
                       value={newGalleryTitle}
                       onChange={(e) => setNewGalleryTitle(e.target.value)}
-                      className="mb-1"
                     />
-                    <p className="text-xs text-muted-foreground">
-                      This title will be displayed on the gallery page.
-                    </p>
                   </div>
                   
-                  {/* File Input for Multiple Image Selection */}
                   <div className="mb-4">
                     <Label htmlFor="image-upload" className="block mb-2 text-sm font-medium">
                       Select Images (Multiple)
@@ -765,13 +794,8 @@ const Admin = () => {
                       onChange={handleImageFilesChange}
                       className="cursor-pointer"
                     />
-                    <p className="text-xs text-muted-foreground mt-1">
-                      All selected images will be grouped under the gallery title above.
-                    </p>
-                    {/* TODO: Backend Integration - Connect to file upload API */}
                   </div>
 
-                  {/* Selected Images Preview */}
                   {selectedFiles.length > 0 && (
                     <div className="mb-4">
                       <Label className="block mb-2 text-sm font-medium">
@@ -781,15 +805,11 @@ const Admin = () => {
                         {selectedFiles.map((file, index) => (
                           <div key={index} className="relative group">
                             <div className="aspect-square rounded-lg overflow-hidden border-2 border-border">
-                              <img 
-                                src={file.preview} 
-                                alt={file.alt} 
-                                className="w-full h-full object-cover"
-                              />
+                              <img src={file.preview} alt={file.alt} className="w-full h-full object-cover" />
                             </div>
                             <button
                               onClick={() => removeSelectedFile(index)}
-                              className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center shadow-md hover:bg-destructive/90 transition-colors"
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center shadow-md"
                             >
                               <X className="w-4 h-4" />
                             </button>
@@ -819,13 +839,10 @@ const Admin = () => {
                       Create Gallery
                     </Button>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    * Images are stored locally in this session. Backend integration required for permanent storage.
-                  </p>
                 </div>
               )}
 
-              {/* Edit Gallery Album Form */}
+              {/* Edit Gallery Form */}
               {editingGallery && (
                 <div className="bg-card rounded-xl p-6 shadow-md border-2 border-primary">
                   <div className="flex items-center justify-between mb-4">
@@ -840,7 +857,6 @@ const Admin = () => {
                     </Button>
                   </div>
                   
-                  {/* Gallery Title */}
                   <div className="mb-4">
                     <Label className="block mb-2 text-sm font-medium">Gallery Title *</Label>
                     <Input
@@ -848,22 +864,19 @@ const Admin = () => {
                       onChange={(e) => setEditingGallery({ ...editingGallery, title: e.target.value })}
                     />
                   </div>
-                  
-                  {/* Existing Images */}
+
                   {editGalleryImages.length > 0 && (
                     <div className="mb-4">
-                      <Label className="block mb-2 text-sm font-medium">
-                        Current Images ({editGalleryImages.length})
-                      </Label>
-                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                        {editGalleryImages.map((image) => (
-                          <div key={image.id} className="relative group">
+                      <Label className="block mb-2 text-sm font-medium">Current Images ({editGalleryImages.length})</Label>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {editGalleryImages.map((img) => (
+                          <div key={img.id} className="relative group">
                             <div className="aspect-square rounded-lg overflow-hidden border-2 border-border">
-                              <img src={image.url} alt={image.alt} className="w-full h-full object-cover" />
+                              <img src={img.url} alt={img.alt} className="w-full h-full object-cover" />
                             </div>
                             <button
-                              onClick={() => removeEditGalleryImage(image.id)}
-                              className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center shadow-md hover:bg-destructive/90 transition-colors"
+                              onClick={() => removeEditGalleryImage(img.id)}
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center shadow-md"
                             >
                               <X className="w-4 h-4" />
                             </button>
@@ -873,7 +886,6 @@ const Admin = () => {
                     </div>
                   )}
 
-                  {/* Add More Images */}
                   <div className="mb-4">
                     <Label className="block mb-2 text-sm font-medium">Add More Images</Label>
                     <Input
@@ -885,21 +897,18 @@ const Admin = () => {
                     />
                   </div>
 
-                  {/* New Images Preview */}
                   {newEditGalleryFiles.length > 0 && (
                     <div className="mb-4">
-                      <Label className="block mb-2 text-sm font-medium">
-                        New Images ({newEditGalleryFiles.length})
-                      </Label>
-                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                      <Label className="block mb-2 text-sm font-medium">New Images ({newEditGalleryFiles.length})</Label>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {newEditGalleryFiles.map((file, index) => (
                           <div key={index} className="relative group">
-                            <div className="aspect-square rounded-lg overflow-hidden border-2 border-primary/50">
+                            <div className="aspect-square rounded-lg overflow-hidden border-2 border-green-500">
                               <img src={file.preview} alt={file.alt} className="w-full h-full object-cover" />
                             </div>
                             <button
                               onClick={() => removeNewEditFile(index)}
-                              className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center shadow-md hover:bg-destructive/90 transition-colors"
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center shadow-md"
                             >
                               <X className="w-4 h-4" />
                             </button>
@@ -910,9 +919,7 @@ const Admin = () => {
                   )}
 
                   <div className="flex gap-2">
-                    <Button onClick={updateGalleryAlbum}>
-                      Save Changes
-                    </Button>
+                    <Button onClick={updateGalleryAlbum}>Save Changes</Button>
                     <Button variant="outline" onClick={() => {
                       setEditingGallery(null);
                       setEditGalleryImages([]);
@@ -925,7 +932,7 @@ const Admin = () => {
                 </div>
               )}
 
-              {/* Gallery Albums List */}
+              {/* Gallery List */}
               <div className="bg-card rounded-xl shadow-md overflow-hidden">
                 <div className="p-4 border-b border-border">
                   <h3 className="font-semibold text-foreground">All Gallery Albums ({galleryAlbums.length})</h3>
@@ -934,25 +941,13 @@ const Admin = () => {
                   {galleryAlbums.map((album) => (
                     <div key={album.id} className="relative group rounded-xl overflow-hidden shadow-md bg-muted">
                       <div className="aspect-video">
-                        <img
-                          src={album.coverImage}
-                          alt={album.title}
-                          className="w-full h-full object-cover"
-                        />
+                        <img src={album.coverImage} alt={album.title} className="w-full h-full object-cover" />
                       </div>
                       <div className="absolute inset-0 bg-foreground/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                        <Button
-                          variant="secondary"
-                          size="icon"
-                          onClick={() => startEditingGallery(album)}
-                        >
+                        <Button variant="secondary" size="icon" onClick={() => startEditingGallery(album)}>
                           <Edit2 className="w-4 h-4" />
                         </Button>
-                        <Button
-                          variant="destructive"
-                          size="icon"
-                          onClick={() => deleteGalleryAlbum(album.id)}
-                        >
+                        <Button variant="destructive" size="icon" onClick={() => deleteGalleryAlbum(album.id)}>
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
@@ -978,7 +973,6 @@ const Admin = () => {
           {/* Messages Tab */}
           {activeTab === 'messages' && (
             <div className="space-y-4">
-              {/* Messages List Header */}
               <div className="bg-card rounded-xl shadow-md overflow-hidden">
                 <div className="p-4 border-b border-border">
                   <h3 className="font-semibold text-foreground">
@@ -1020,15 +1014,10 @@ const Admin = () => {
                           <p className="text-xs text-muted-foreground mt-1">{message.date}</p>
                         </div>
                         
-                        {/* Action Buttons - Right aligned with icons and tooltips */}
                         <div className="flex gap-2 shrink-0">
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <Button
-                                size="icon"
-                                className="bg-primary hover:bg-primary/90"
-                                onClick={() => setViewingMessage(message)}
-                              >
+                              <Button size="icon" className="bg-primary hover:bg-primary/90" onClick={() => setViewingMessage(message)}>
                                 <Eye className="w-4 h-4" />
                               </Button>
                             </TooltipTrigger>
@@ -1050,9 +1039,7 @@ const Admin = () => {
                                 {message.isRead ? <EyeOff className="w-4 h-4" /> : <Check className="w-4 h-4" />}
                               </Button>
                             </TooltipTrigger>
-                            <TooltipContent>
-                              {message.isRead ? 'Mark as Unread' : 'Mark as Read'}
-                            </TooltipContent>
+                            <TooltipContent>{message.isRead ? 'Mark as Unread' : 'Mark as Read'}</TooltipContent>
                           </Tooltip>
                           
                           <Tooltip>
@@ -1080,7 +1067,6 @@ const Admin = () => {
           {/* Admissions Tab */}
           {activeTab === 'admissions' && (
             <div className="space-y-4">
-              {/* Admissions List Header */}
               <div className="bg-card rounded-xl shadow-md overflow-hidden">
                 <div className="p-4 border-b border-border">
                   <h3 className="font-semibold text-foreground">
@@ -1100,7 +1086,6 @@ const Admin = () => {
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
-                    {/* Desktop Table View */}
                     <table className="w-full hidden md:table">
                       <thead className="bg-muted/50">
                         <tr>
@@ -1139,11 +1124,7 @@ const Admin = () => {
                               <div className="flex gap-2 justify-end">
                                 <Tooltip>
                                   <TooltipTrigger asChild>
-                                    <Button
-                                      size="icon"
-                                      className="bg-primary hover:bg-primary/90"
-                                      onClick={() => setViewingAdmission(admission)}
-                                    >
+                                    <Button size="icon" className="bg-primary hover:bg-primary/90" onClick={() => setViewingAdmission(admission)}>
                                       <Eye className="w-4 h-4" />
                                     </Button>
                                   </TooltipTrigger>
@@ -1169,7 +1150,7 @@ const Admin = () => {
                       </tbody>
                     </table>
 
-                    {/* Mobile Card View */}
+                    {/* Mobile View */}
                     <div className="md:hidden divide-y divide-border">
                       {admissions.map((admission) => (
                         <div key={admission.id} className="p-4 space-y-3">
@@ -1180,10 +1161,10 @@ const Admin = () => {
                             </div>
                             <span className={cn(
                               'px-2 py-1 text-xs font-medium rounded capitalize shrink-0',
-                              admission.status === 'pending' && 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-                              admission.status === 'reviewed' && 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-                              admission.status === 'approved' && 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-                              admission.status === 'rejected' && 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                              admission.status === 'pending' && 'bg-yellow-100 text-yellow-800',
+                              admission.status === 'reviewed' && 'bg-blue-100 text-blue-800',
+                              admission.status === 'approved' && 'bg-green-100 text-green-800',
+                              admission.status === 'rejected' && 'bg-red-100 text-red-800'
                             )}>
                               {admission.status}
                             </span>
@@ -1194,11 +1175,7 @@ const Admin = () => {
                             <p className="text-muted-foreground text-xs">{admission.date}</p>
                           </div>
                           <div className="flex gap-2 pt-2">
-                            <Button
-                              size="sm"
-                              className="flex-1 gap-1"
-                              onClick={() => setViewingAdmission(admission)}
-                            >
+                            <Button size="sm" className="flex-1 gap-1" onClick={() => setViewingAdmission(admission)}>
                               <Eye className="w-4 h-4" />
                               View
                             </Button>

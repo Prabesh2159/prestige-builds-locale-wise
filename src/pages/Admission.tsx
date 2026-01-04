@@ -5,9 +5,22 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { classes, schoolInfo } from '@/data/mockData';
+import { classes, schoolInfo } from '@/types';
 import { FileText, Calendar, CreditCard, CheckCircle } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
+
+/**
+ * Admission Page
+ * 
+ * BACKEND INTEGRATION NOTES:
+ * ==========================
+ * Form submissions are currently simulated.
+ * 
+ * TODO: Replace with API call:
+ * - POST /api/admission - Submit admission application
+ * - Implement form validation with zod
+ * - Add file upload for documents
+ */
 
 const Admission = () => {
   const { toast } = useToast();
@@ -24,7 +37,10 @@ const Admission = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
+    // TODO: Replace with actual API call - POST /api/admission
     await new Promise((resolve) => setTimeout(resolve, 1500));
+    
     toast({
       title: 'Application Submitted!',
       description: 'We have received your admission inquiry. Our team will contact you soon.',
@@ -47,7 +63,6 @@ const Admission = () => {
     { level: 'Class 1-5', age: 'Age appropriate', requirement: 'Previous class completion certificate' },
     { level: 'Class 6-8', age: 'Age appropriate', requirement: 'Transfer certificate & marksheet' },
     { level: 'Class 9', age: 'Age appropriate', requirement: 'Class 8 marksheet & TC' },
-    // { level: '+2 Level', age: '16+ years', requirement: 'Class 10 marksheet & TC' },
   ];
 
   return (

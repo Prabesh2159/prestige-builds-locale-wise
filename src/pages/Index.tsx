@@ -1,13 +1,19 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Users, BookOpen, Award, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { schoolInfo, facilities } from '@/data/mockData';
+import { schoolInfo, facilities } from '@/types';
 
-// Use hero image from public folder for Home page only
-const 
+/**
+ * Home Page
+ * 
+ * BACKEND INTEGRATION NOTES:
+ * ==========================
+ * Uses static school info from types.
+ * 
+ * TODO: Consider making school info configurable via admin panel
+ */
 
-
-heroImagePath = '/images/building.jpeg';
+const heroImagePath = '/images/building.jpeg';
 
 const Index = () => {
   const stats = [
@@ -19,13 +25,12 @@ const Index = () => {
 
   return (
     <div>
-      {/* Hero Section - Uses images/hero.jpg */}
+      {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroImagePath})` }}
         >
-          {/* Light gradient overlay for text contrast - allows hero image to be clearly visible */}
           <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/40 to-transparent" />
         </div>
         

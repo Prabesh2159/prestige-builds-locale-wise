@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
-import { notices, NoticeAttachmentData } from '@/data/mockData';
+import { notices } from '@/pages/Admin';
+import { NoticeAttachmentData } from '@/types';
 import PageHero from '@/components/shared/PageHero';
 import NoticeAttachment from '@/components/shared/NoticeAttachment';
 import AttachmentsGallery from '@/components/shared/AttachmentsGallery';
@@ -7,10 +8,22 @@ import { Calendar, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Helmet } from 'react-helmet-async';
 
+/**
+ * Notice Detail Page
+ * 
+ * BACKEND INTEGRATION NOTES:
+ * ==========================
+ * Currently imports notices from Admin component state.
+ * 
+ * TODO: Replace with API call:
+ * - GET /api/notices/:id - Fetch single notice by ID
+ * - Implement loading state and error handling
+ */
+
 const NoticeDetail = () => {
   const { id } = useParams<{ id: string }>();
   
-  // Dynamic loading from data source - Backend ready with ID-based loading
+  // TODO: Replace with API call - GET /api/notices/:id
   const notice = notices.find(n => n.id === id);
 
   if (!notice) {
