@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  GraduationCap, Bell, Image, Mail, LogOut, Plus, Trash2, Edit2, 
+  Bell, Image, Mail, LogOut, Plus, Trash2, Edit2, 
   Eye, EyeOff, Menu, X, Home, Check, FileText, Upload, UserPlus
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useAdminAuth } from '@/contexts/AdminAuthContext';
 import { notices as initialNotices, galleryAlbums as initialGalleryAlbums, contactMessages as initialMessages, admissionForms as initialAdmissions, Notice, GalleryAlbum, GalleryImageItem, ContactMessage, AdmissionForm, NoticeAttachmentData } from '@/data/mockData';
 import NoticeAttachment from '@/components/shared/NoticeAttachment';
 import MultiFileUploader, { FileWithPreview } from '@/components/admin/MultiFileUploader';
@@ -32,10 +33,9 @@ type AdminTab = 'notices' | 'gallery' | 'messages' | 'admissions';
 const Admin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { logout } = useAdminAuth();
   const [activeTab, setActiveTab] = useState<AdminTab>('notices');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loginData, setLoginData] = useState({ username: '', password: '' });
 
   // State for managing data
   const [notices, setNotices] = useState<Notice[]>(initialNotices);
@@ -80,32 +80,11 @@ const Admin = () => {
   // Admission modal state
   const [viewingAdmission, setViewingAdmission] = useState<AdmissionForm | null>(null);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Existing Escape key logic
-      if (e.key === 'Escape') {
-        navigate('/login');
-      }
-
-      // New Logic: Ctrl + Alt + P to open login and fill credentials
-      if (e.ctrlKey && e.altKey && (e.key === 'p' || e.key === 'P')) {
-        e.preventDefault();
-        setIsAuthenticated(true); // Force logout/show login screen
-        setLoginData({ username: 'username', password: 'password' }); // Fill credentials
-        toast({ title: 'Developer Mode', description: 'Login credentials auto-filled.' });
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [navigate, toast]);
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Placeholder authentication - Backend integration point
-    if (loginData.username && loginData.password) {
-      setIsAuthenticated(true);
-      toast({ title: 'Welcome!', description: 'You have logged in successfully.' });
-    }
+  // Logout handler
+  const handleLogout = () => {
+    logout();
+    toast({ title: 'Logged Out', description: 'You have been logged out successfully.' });
+    navigate('/');
   };
 
   const tabs = [
@@ -350,56 +329,7 @@ const Admin = () => {
     toast({ title: 'Admission Deleted', description: 'Admission record has been removed.' });
   };
 
-  // Login Screen
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-primary/5 flex items-center justify-center p-4">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <div className="w-20 h-20 mx-auto rounded-full bg-primary flex items-center justify-center mb-4 shadow-lg">
-              <GraduationCap className="w-10 h-10 text-primary-foreground" />
-            </div>
-            <h1 className="font-heading text-3xl font-bold text-foreground">Admin Panel</h1>
-            <p className="text-muted-foreground mt-2">Brilliant Sagarmatha English Secondary Boarding School</p>
-          </div>
-
-          <form onSubmit={handleLogin} className="bg-card rounded-xl p-8 shadow-school border border-border">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="username" className="text-foreground font-medium">Username</Label>
-                <Input
-                  id="username"
-                  placeholder="Enter username"
-                  value={loginData.username}
-                  onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
-                  required
-                  className="h-12"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-foreground font-medium">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter password"
-                  value={loginData.password}
-                  onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                  required
-                  className="h-12"
-                />
-              </div>
-            </div>
-            <Button type="submit" className="w-full mt-6 h-12 text-base font-semibold">
-              Login to Dashboard
-            </Button>
-            <p className="text-center text-sm text-muted-foreground mt-4">
-              Press <kbd className="px-2 py-1 bg-muted rounded text-xs font-mono">Esc</kbd> to go back to website
-            </p>
-          </form>
-        </div>
-      </div>
-    );
-  }
+  // Admin panel is protected by ProtectedRoute - no login screen needed here
 
   return (
     <div className="h-screen bg-background flex overflow-hidden">
@@ -468,7 +398,7 @@ const Admin = () => {
             <Button
               variant="ghost"
               className="w-full justify-start gap-3 text-destructive hover:text-destructive"
-              onClick={() => setIsAuthenticated(false)}
+              onClick={handleLogout}
             >
               <LogOut className="w-5 h-5" />
               {isSidebarOpen && 'Logout'}
