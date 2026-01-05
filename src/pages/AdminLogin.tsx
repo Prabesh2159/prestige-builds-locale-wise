@@ -57,7 +57,7 @@ const AdminLogin = () => {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-20 h-20 mx-auto rounded-full bg-[#2563EB] flex items-center justify-center mb-4 shadow-lg shadow-[#2563EB]/30">
+          <div className="w-20 h-20 mx-auto rounded-full bg-[#1E2943] flex items-center justify-center mb-4 shadow-lg shadow-[#1E2943]/30">
             <GraduationCap className="w-10 h-10 text-white" />
           </div>
           <h1 className="font-heading text-3xl font-bold text-foreground">Admin Login</h1>
@@ -120,7 +120,7 @@ const AdminLogin = () => {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full h-12 text-base font-semibold bg-[#2563EB] hover:bg-[#2563EB]/90 text-white"
+              className="w-full h-12 text-base font-semibold bg-[#1E2943] hover:bg-[#1E2943]/90 text-white"
             >
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
