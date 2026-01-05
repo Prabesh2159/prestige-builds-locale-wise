@@ -8,6 +8,7 @@ import Layout from "./components/layout/Layout";
 import ScrollToTop from "./components/shared/ScrollToTop";
 import { AdminAuthProvider } from "./contexts/AdminAuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import AdminRouteGuard from "./components/auth/AdminRouteGuard";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Academics from "./pages/Academics";
@@ -31,6 +32,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
+            <AdminRouteGuard />
             <Layout>
               <Routes>
                 <Route path="/" element={<Index />} />
