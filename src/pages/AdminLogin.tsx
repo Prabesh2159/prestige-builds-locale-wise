@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GraduationCap, Mail, Lock, AlertCircle } from 'lucide-react';
+import { GraduationCap, User, Lock, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,7 +9,7 @@ import { useAdminAuth } from '@/contexts/AdminAuthContext';
 const AdminLogin = () => {
   const navigate = useNavigate();
   const { isAuthenticated, login } = useAdminAuth();
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +41,7 @@ const AdminLogin = () => {
     await new Promise(resolve => setTimeout(resolve, 300));
 
     // TODO: Replace with backend API authentication call
-    const result = login(email, password);
+    const result = login(username, password);
 
     if (result.success) {
       navigate('/admin', { replace: true });
@@ -53,12 +53,12 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#2563EB]/10 via-background to-[#2563EB]/5 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-primary/5 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-20 h-20 mx-auto rounded-full bg-[#1E2943] flex items-center justify-center mb-4 shadow-lg shadow-[#1E2943]/30">
-            <GraduationCap className="w-10 h-10 text-white" />
+          <div className="w-20 h-20 mx-auto rounded-full bg-primary flex items-center justify-center mb-4 shadow-lg shadow-primary/30">
+            <GraduationCap className="w-10 h-10 text-primary-foreground" />
           </div>
           <h1 className="font-heading text-3xl font-bold text-foreground">Admin Login</h1>
           <p className="text-muted-foreground mt-2">
@@ -77,21 +77,21 @@ const AdminLogin = () => {
               </div>
             )}
 
-            {/* Email Field */}
+            {/* Username Field */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-foreground font-medium">
-                Email Address
+              <Label htmlFor="username" className="text-foreground font-medium">
+                Username
               </Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="admin@school.edu.np"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="username"
+                  type="text"
+                  placeholder="Enter username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="h-12 pl-10"
-                  autoComplete="email"
+                  autoComplete="username"
                   autoFocus
                 />
               </div>
@@ -120,7 +120,7 @@ const AdminLogin = () => {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full h-12 text-base font-semibold bg-[#1E2943] hover:bg-[#1E2943]/90 text-white"
+              className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>

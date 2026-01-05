@@ -26,31 +26,27 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // TODO: Replace with backend API call for actual authentication
-  const login = (email: string, password: string): { success: boolean; error?: string } => {
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email.trim()) {
-      return { success: false, error: 'Email is required' };
-    }
-    if (!emailRegex.test(email)) {
-      return { success: false, error: 'Please enter a valid email address' };
+  const login = (username: string, password: string): { success: boolean; error?: string } => {
+    // Validate username
+    if (!username.trim()) {
+      return { success: false, error: 'Username is required' };
     }
     
     // Validate password
     if (!password.trim()) {
       return { success: false, error: 'Password is required' };
     }
-    if (password.length < 6) {
-      return { success: false, error: 'Password must be at least 6 characters' };
-    }
 
     // TODO: Backend Integration - Replace with actual API authentication
-    // For now, accept any valid credentials for demonstration
+    // For now, use hardcoded credentials
     // In production, this should verify against a secure backend
+    if (username === 'admin' && password === 'admin') {
+      setIsAuthenticated(true);
+      sessionStorage.setItem(AUTH_STORAGE_KEY, 'true');
+      return { success: true };
+    }
     
-    setIsAuthenticated(true);
-    sessionStorage.setItem(AUTH_STORAGE_KEY, 'true');
-    return { success: true };
+    return { success: false, error: 'Invalid username or password' };
   };
 
   const logout = () => {
